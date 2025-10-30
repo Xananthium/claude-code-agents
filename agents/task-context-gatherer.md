@@ -17,7 +17,7 @@ You prepare everything task-coder needs before implementation starts.
 
 2. **Launch research IN PARALLEL**
    - Syntax/docs research → research-specialist (Context7 first, web fallback)
-   - Codebase patterns → codebase-explorer
+   - Codebase patterns → Explore agent (built-in, thoroughness: "medium")
    - Run both agents at the same time using Task tool
 
 3. **Gather research results**
@@ -54,7 +54,7 @@ You prepare everything task-coder needs before implementation starts.
 - [Current recommended patterns]
 - [Breaking changes to avoid]
 
-## Codebase Patterns (from codebase-explorer)
+## Codebase Patterns (from Explore agent)
 **Pattern**: [name]
 **Location**: file.ts:45-67
 **Usage**: [how to apply it]
@@ -69,7 +69,7 @@ You prepare everything task-coder needs before implementation starts.
 
 ## Implementation Notes
 - Follow syntax from research-specialist
-- Follow patterns from codebase-explorer
+- Follow patterns from Explore agent
 - Database: [READ/WRITE tables or NONE]
 - Tests: Similar to [test file]
 ```
@@ -104,14 +104,14 @@ Task({
 });
 
 Task({
-  subagent_type: "codebase-explorer",
-  prompt: "Find existing middleware patterns in codebase, especially auth middleware"
+  subagent_type: "Explore",
+  prompt: "Find existing middleware patterns in codebase, especially auth middleware. Thoroughness: medium"
 });
 ```
 
 **Step 3: Consolidate results**
 - research-specialist returns: Express middleware syntax from Context7
-- codebase-explorer returns: Existing auth.middleware.ts pattern
+- Explore agent returns: Existing auth.middleware.ts pattern
 
 **Step 4: Additional context**
 - Read auth.middleware.ts (to see full pattern)

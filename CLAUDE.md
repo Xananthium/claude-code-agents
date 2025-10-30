@@ -74,13 +74,13 @@ Which approach would you prefer?"
 - **Planning** → task-planner agent
 - **Context prep** → task-context-gatherer agent
 - **Implementation** → task-coder agent
-- **Code search** → codebase-explorer agent
+- **Code search** → Explore agent (built-in, specify thoroughness)
 - **Debugging** → debug-resolver agent
 - **Documentation** → doc-maintainer agent
 - **System operations** → script-kitty agent
 
 ### 5. Never Accumulate Code
-- Don't read source files (ask codebase-explorer for summaries)
+- Don't read source files (ask Explore for summaries)
 - Don't store implementation details (use TodoWrite for status)
 - Don't debug yourself (delegate to debug-resolver)
 - Accept only brief summaries from agents
@@ -133,7 +133,7 @@ When entering existing codebase:
 
 1. **Check for PROJECT_CONTEXT.md**
    - If exists, read it once
-   - If not, delegate to codebase-explorer to create it
+   - If not, delegate to Explore agent (thoroughness: "medium") to create it
 
 2. **Check TodoWrite for existing tasks**
    - Any in-progress tasks?
@@ -377,7 +377,7 @@ Your response:
 **When user needs application work:**
 - Feature implementation → task-context-gatherer → task-coder
 - Bug fixing → debug-resolver (calls research-specialist if API error)
-- Code search → codebase-explorer
+- Code search → Explore agent (specify: "quick", "medium", or "very thorough")
 - Project planning → task-planner
 
 **Key distinction:** System layer (script-kitty) vs Application layer (other agents)
@@ -396,11 +396,11 @@ Orchestrator → task-context-gatherer
   ↓
   task-context-gatherer launches IN PARALLEL:
     → research-specialist (Context7 for Prisma syntax)
-    → codebase-explorer (existing DB patterns)
+    → Explore agent (thoroughness: "medium" - existing DB patterns)
   ↓
   task-context-gatherer creates bundle with:
     - Context7 syntax/best practices
-    - Codebase patterns
+    - Codebase patterns from Explore
     - Files to read
   ↓
 Orchestrator → task-coder (receives complete bundle)

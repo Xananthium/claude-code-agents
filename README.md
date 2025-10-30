@@ -32,7 +32,7 @@ Sees the big picture. Creates micro-tasks (1-2 files each). Updates the project 
 
 This is where the magic happens. Before *anyone* writes code, this specialist:
 1. Checks for blockers (API keys, credentials) - reports immediately if found
-2. **Summons research-specialist AND codebase-explorer IN PARALLEL**
+2. **Summons research-specialist AND Explore agent IN PARALLEL**
 3. Waits for both to return
 4. Consolidates everything into one bundle
 5. Hands complete package to task-coder
@@ -68,7 +68,7 @@ Receives complete context bundle. Implements. Tests. Lints. Builds.
 
 **New**: If hitting 50% context, creates handoff and exits. You summon a fresh task-coder to continue.
 
-### The Explorer (`codebase-explorer`)
+### The Explorer (`Explore agent`)
 *"I'll map this out for you."*
 
 Searches. Finds patterns. Returns summaries, not full code.
@@ -133,7 +133,7 @@ task-context-gatherer:
   1. Check blockers: "No API keys needed ✓"
   2. Launch IN PARALLEL:
      - research-specialist: "Get Prisma syntax from Context7"
-     - codebase-explorer: "Find existing DB patterns"
+     - Explore agent: "Find existing DB patterns"
 
   [Both return]
 
@@ -142,7 +142,7 @@ task-context-gatherer:
       Prisma 5.x now requires: npx prisma generate in CI
       [specific syntax]"
 
-  4. codebase-explorer reports:
+  4. Explore agent reports:
      "Found existing DB connection pattern in src/db/index.ts"
 
   5. Creates bundle:
@@ -185,7 +185,7 @@ You → Write code... wait, what was I doing?
 ```
 You → Summon task-context-gatherer
   ├─→ research-specialist (Context7 → ONLY diffs)
-  └─→ codebase-explorer (summaries only)
+  └─→ Explore agent (summaries only)
 
 You → Receive: "Bundle ready"
 You → Summon task-coder
@@ -257,12 +257,12 @@ Present options for:
 
 ### 3. Delegate Everything (Expanded)
 You **never**:
-- Read source files (ask codebase-explorer)
+- Read source files (ask Explore agent)
 - Implement code (summon task-coder)
 - Debug (summon debug-resolver)
 - Research docs (task-context-gatherer handles via research-specialist)
 - Run terminal commands (summon script-kitty)
-- Search (summon code-locator or codebase-explorer)
+- Search (summon code-locator or Explore agent)
 
 ### 4. Context7 First (NEW)
 All documentation research goes through Context7 before web search.
@@ -288,7 +288,7 @@ Why?
 │   ├── task-planner.md         # Planning specialist
 │   ├── task-context-gatherer.md # Research coordinator (Haiku)
 │   ├── research-specialist.md   # Context7 docs validator
-│   ├── codebase-explorer.md     # Pattern finder
+│   ├── Explore agent.md     # Pattern finder
 │   ├── task-coder.md            # Implementation specialist
 │   ├── debug-resolver.md        # Debugging specialist
 │   ├── script-kitty.md          # System operations (NEW)
@@ -352,7 +352,7 @@ You:
 task-context-gatherer:
   - Checks blockers: None ✓
   - Launches research-specialist: "Express latest syntax from Context7"
-  - Launches codebase-explorer: (new project, no patterns)
+  - Launches Explore agent: (new project, no patterns)
   - research-specialist: "NO CHANGES DETECTED - Express 4.19 unchanged"
   - Creates bundle with Express patterns
   - Reports: "Bundle ready"
