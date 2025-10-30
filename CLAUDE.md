@@ -70,14 +70,14 @@ Option 3: [Approach C]
 Which approach would you prefer?"
 ```
 
-### 4. Always Delegate
+### 4. Always Delegate (Agents Are Self-Sufficient)
 - **Planning** → task-planner agent
-- **Context prep** → task-context-gatherer agent
-- **Implementation** → task-coder agent
-- **Code search** → Explore agent (built-in, specify thoroughness)
-- **Debugging** → debug-resolver agent
+- **Implementation** → task-coder agent (calls task-context-gatherer if needed)
+- **Debugging** → debug-resolver agent (calls research-specialist/Explore if needed)
+- **System operations** → script-kitty agent (calls research-specialist/Explore if needed)
 - **Documentation** → doc-maintainer agent
-- **System operations** → script-kitty agent
+- **Code search** → Explore agent (built-in, specify thoroughness)
+- **Syntax lookup** → research-specialist agent (Context7 first)
 
 ### 5. Never Accumulate Code
 - Don't read source files (ask Explore for summaries)
@@ -121,8 +121,8 @@ When user wants to build something new:
    ```
 
 4. **Begin execution**
-   - For each task: orchestrator → task-context-gatherer → task-coder
-   - task-context-gatherer handles ALL research (Context7 via research-specialist)
+   - For each task: orchestrator → task-coder
+   - task-coder evaluates and calls task-context-gatherer if needed
    - Track in TodoWrite
 
 ---
@@ -375,10 +375,10 @@ Your response:
 - System permissions → script-kitty
 
 **When user needs application work:**
-- Feature implementation → task-context-gatherer → task-coder
-- Bug fixing → debug-resolver (calls research-specialist if API error)
+- Feature implementation → task-coder (self-sufficient, calls research as needed)
+- Bug fixing → debug-resolver (self-sufficient, calls research as needed)
 - Code search → Explore agent (specify: "quick", "medium", or "very thorough")
-- Project planning → task-planner
+- Project planning → task-planner (uses Explore to find patterns)
 
 **Key distinction:** System layer (script-kitty) vs Application layer (other agents)
 
@@ -386,40 +386,55 @@ Your response:
 
 ## Research Flow (CRITICAL - Saves Orchestrator Tokens)
 
-**YOU (orchestrator) NEVER do research directly.**
+**YOU (orchestrator) NEVER do research directly. Agents handle their own research.**
 
-### Correct Flow:
+### Self-Sufficient Agent Flow:
 ```
 User: "Add Prisma to the project"
 
-Orchestrator → task-context-gatherer
+Orchestrator → task-coder: "Implement Prisma integration"
+  ↓
+task-coder evaluates: "Non-trivial task, need research"
+  ↓
+task-coder → task-context-gatherer: "Get Prisma syntax + existing DB patterns"
   ↓
   task-context-gatherer launches IN PARALLEL:
     → research-specialist (Context7 for Prisma syntax)
     → Explore agent (thoroughness: "medium" - existing DB patterns)
   ↓
-  task-context-gatherer creates bundle with:
-    - Context7 syntax/best practices
-    - Codebase patterns from Explore
-    - Files to read
+  task-context-gatherer returns consolidated findings
   ↓
-Orchestrator → task-coder (receives complete bundle)
+task-coder implements using research
+```
+
+### For Simple Tasks (No Research Needed):
+```
+Orchestrator → task-coder: "Fix typo in user.ts line 42"
+  ↓
+task-coder evaluates: "Trivial task, no research needed"
+  ↓
+task-coder implements directly
 ```
 
 ### For Debugging:
 ```
 User: "Getting error: createRoot is not exported"
 
-Orchestrator → debug-resolver
+Orchestrator → debug-resolver: "Fix this error"
   ↓
-  debug-resolver sees API error pattern
+debug-resolver sees: API error pattern
   ↓
-  debug-resolver → research-specialist (Context7 for React API)
+debug-resolver → research-specialist: "Check Context7 for React createRoot"
   ↓
-  research-specialist returns: BREAKING CHANGES (React 18 API)
+research-specialist returns: BREAKING CHANGES (React 18 API)
   ↓
-  debug-resolver applies correct syntax
+debug-resolver applies correct syntax and tests
 ```
+
+### Agents Choose Their Tools:
+- **Simple syntax lookup** → Call research-specialist directly
+- **Find code patterns** → Call Explore directly
+- **Need both + files** → Call task-context-gatherer (coordinates both)
 
 ### Why This Matters:
 - **Context7 first**: Fastest, most accurate docs

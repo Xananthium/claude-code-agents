@@ -146,6 +146,20 @@ trap 'echo -e "${RED}Error occurred${NC}"' ERR
 # Sets up: fail2ban, automatic security updates, log monitoring
 ```
 
+## When You Need Research
+
+**For tool/command syntax:**
+- Call research-specialist directly: "Check Context7 for [tool] command syntax"
+- Example: "Check Context7 for nginx proxy_pass configuration"
+
+**For finding existing scripts/configs:**
+- Use Explore agent: "Find [what]. Thoroughness: medium"
+- Example: "Find existing deployment scripts. Thoroughness: medium"
+
+**For complex setup (need both):**
+- Call task-context-gatherer: coordinates both in parallel
+- Example: When setting up a service and need current docs + existing patterns
+
 ## Response Format
 
 **For simple tasks:**

@@ -28,16 +28,16 @@ Sees the big picture. Creates micro-tasks (1-2 files each). Updates the project 
 **New**: Now even more surgical in task breakdown.
 
 ### The Context Gatherer (`task-context-gatherer`) - *Now runs on Haiku*
-*"Let me get you everything you need."*
+*"Let me coordinate research for you."*
 
-This is where the magic happens. Before *anyone* writes code, this specialist:
+An optional research helper that agents call when they need comprehensive research:
 1. Checks for blockers (API keys, credentials) - reports immediately if found
-2. **Summons research-specialist AND Explore agent IN PARALLEL**
+2. **Launches research-specialist AND Explore agent IN PARALLEL**
 3. Waits for both to return
-4. Consolidates everything into one bundle
-5. Hands complete package to task-coder
+4. Consolidates findings
+5. Returns to calling agent (task-coder, debug-resolver, etc.)
 
-**Why this matters**: You never see the research. task-coder gets everything pre-packaged. Your context stays pristine.
+**Why this matters**: Agents are self-sufficient. They call task-context-gatherer only when needing both syntax + patterns coordinated. For simple lookups, they call research-specialist or Explore directly.
 
 ### The Researcher (`research-specialist`) - *Now Context7-first*
 *"Let me check what's changed."*
@@ -108,7 +108,7 @@ Generates lightweight documentation. Maintains .DOC.md files.
 
 Creates snapshots at logical milestones.
 
-### The Locator (`code-locator`)
+### The Locator (`code-locator (built-in)`)
 *"I'll find that function for you."*
 
 Pinpoints specific code without loading full files. Returns paths and line numbers only.
@@ -127,41 +127,27 @@ You (Orchestrator):
     progress: "0/? tasks"
   }
 
-  🤝 Summon: task-context-gatherer
-
-task-context-gatherer:
-  1. Check blockers: "No API keys needed ✓"
-  2. Launch IN PARALLEL:
-     - research-specialist: "Get Prisma syntax from Context7"
-     - Explore agent: "Find existing DB patterns"
-
-  [Both return]
-
-  3. research-specialist reports:
-     "Status: UPDATES FOUND
-      Prisma 5.x now requires: npx prisma generate in CI
-      [specific syntax]"
-
-  4. Explore agent reports:
-     "Found existing DB connection pattern in src/db/index.ts"
-
-  5. Creates bundle:
-     - Prisma 5.x syntax (ONLY the diffs from Jan 2025)
-     - Existing DB pattern to follow
-     - 3 relevant files
-
-  6. Reports: "Bundle ready at .context/task_bundle.md"
-
-  [Vanishes]
-
-You (never saw the research, still remember 3 things):
-  🤝 Summon: task-coder with bundle path
+  🤝 Summon: task-coder "Implement Prisma integration"
 
 task-coder:
-  - Reads bundle
-  - Implements Prisma with correct syntax
-  - Runs tests (pass)
-  - Reports: "Prisma integrated. Tests: 12/12 passing"
+  1. Evaluates: "Non-trivial task, need research"
+  2. Calls task-context-gatherer: "Get Prisma syntax + existing DB patterns"
+
+  task-context-gatherer:
+    - Check blockers: No API keys needed ✓
+    - Launch IN PARALLEL:
+      → research-specialist: "Prisma Context7 syntax"
+      → Explore agent: "Find DB patterns. Thoroughness: medium"
+    - Consolidates and returns findings
+
+  3. Receives research:
+     - Prisma 5.x syntax (ONLY diffs from Jan 2025)
+     - Existing DB pattern at src/db/index.ts
+     - 3 relevant files
+
+  4. Implements using research
+  5. Runs tests: 12/12 passing
+  6. Reports: "Prisma integrated. Tests: 12/12 passing"
   [Vanishes]
 
 You:
@@ -183,13 +169,16 @@ You → Write code... wait, what was I doing?
 
 ### New Way (Context Clean):
 ```
-You → Summon task-context-gatherer
+You → Summon task-coder
+  ↓
+task-coder → task-context-gatherer (if needed)
   ├─→ research-specialist (Context7 → ONLY diffs)
   └─→ Explore agent (summaries only)
+  ↓
+task-coder → Implements with research
 
-You → Receive: "Bundle ready"
-You → Summon task-coder
 You → Still remember: goal, task, progress
+(Never saw the research details)
 ```
 
 ## System Operation Revolution
@@ -262,7 +251,7 @@ You **never**:
 - Debug (summon debug-resolver)
 - Research docs (task-context-gatherer handles via research-specialist)
 - Run terminal commands (summon script-kitty)
-- Search (summon code-locator or Explore agent)
+- Search (summon code-locator (built-in) or Explore agent)
 
 ### 4. Context7 First (NEW)
 All documentation research goes through Context7 before web search.
@@ -294,7 +283,7 @@ Why?
 │   ├── script-kitty.md          # System operations (NEW)
 │   ├── doc-maintainer.md        # Documentation specialist
 │   ├── historian.md             # Checkpoint creator
-│   └── code-locator.md          # Function finder
+│   └── code-locator (built-in).md          # Function finder
 └── README.md                    # This story
 ```
 
@@ -450,10 +439,13 @@ And that's exactly why you'll succeed.
 
 **Q: What's different from v1.0?**
 
-A: Three major upgrades:
-1. task-context-gatherer now orchestrates research (Context7 via research-specialist)
-2. research-specialist returns ONLY diffs from Jan 2025 knowledge
-3. script-kitty handles ALL terminal/system operations
+A: Major upgrades:
+1. **Self-sufficient agents**: Agents call research tools themselves, not orchestrator
+2. **Built-in Explore**: Using Claude Code's optimized Explore agent instead of custom
+3. **Removed custom code-locator**: Using built-in code-locator instead
+4. **research-specialist returns ONLY diffs**: From Jan 2025 knowledge
+5. **script-kitty**: Handles ALL terminal/system operations
+6. **task-context-gatherer**: Now optional helper agents call when needed
 
 **Q: When does research-specialist return "NO CHANGES"?**
 

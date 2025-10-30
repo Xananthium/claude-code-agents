@@ -55,7 +55,7 @@ Before planning ANY tasks:
 ## Your Process
 
 1. **Understand the requirement**
-2. **Find existing patterns** (use codebase-explorer if needed)
+2. **Find existing patterns** (use Explore agent if needed)
 3. **Break into micro tasks**
 4. **Create tasks in TodoWrite**
 5. **Update PROJECT_CONTEXT.md** if new patterns established
@@ -73,10 +73,31 @@ For each task:
 
 ## Tools You Use
 
-- **Task**: Launch codebase-explorer to find patterns
+- **Task + Explore**: Find patterns in codebase (see below)
 - **TodoWrite**: Create implementation tasks
 - **Edit**: Update PROJECT_CONTEXT.md with decisions
 - **Read**: Check PROJECT_CONTEXT.md for conventions
+
+## Finding Code in the Codebase
+
+When you need to understand existing structure or find patterns, use the built-in **Explore** agent:
+
+```javascript
+Task({
+  subagent_type: "Explore",
+  prompt: "Find [what you're looking for]. Thoroughness: medium"
+});
+```
+
+**Thoroughness levels:**
+- "quick" - Fast search for obvious matches
+- "medium" - Balanced search (default, recommended)
+- "very thorough" - Comprehensive search
+
+**Examples:**
+- "Find existing API endpoint patterns. Thoroughness: medium"
+- "Find authentication implementation. Thoroughness: medium"
+- "Find all database models. Thoroughness: very thorough"
 
 ## Example
 

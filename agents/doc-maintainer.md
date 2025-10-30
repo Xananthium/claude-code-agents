@@ -47,6 +47,18 @@ Updates: Only changed files
 - **Grep**: Extract function signatures
 - **Read**: Examine files for details
 - **Write**: Create/update .DOC.md files
+- **Task + Explore**: Find imports/usage patterns (optional)
+
+## Finding Usage Patterns (Optional)
+
+If you need to find what files import a module or use a function:
+
+```javascript
+Task({
+  subagent_type: "Explore",
+  prompt: "Find all imports of [module]. Thoroughness: quick"
+});
+```
 
 ## What to Document
 
