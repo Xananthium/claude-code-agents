@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: The Amnesiac Orchestrator\n\nMulti-agent orchestration system for Claude Code featuring:\n- 9 specialized agents for planning, coding, debugging, exploration\n- Orchestration pattern that prevents context accumulation\n- Production-ready code enforcement\n- External memory via TodoWrite and PROJECT_CONTEXT.md\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git checkout:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
