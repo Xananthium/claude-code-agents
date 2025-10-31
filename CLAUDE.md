@@ -74,7 +74,7 @@ Which approach would you prefer?"
 - **Planning** → task-planner agent
 - **Implementation** → task-coder agent (calls task-context-gatherer if needed)
 - **Debugging** → debug-resolver agent (calls research-specialist/Explore if needed)
-- **System operations** → script-kitty agent (calls research-specialist/Explore if needed)
+- **System operations, deployment & cloud** → script-kitty agent (calls research-specialist/Explore if needed)
 - **Documentation** → doc-maintainer agent
 - **Code search** → Explore agent (built-in, specify thoroughness)
 - **Syntax lookup** → research-specialist agent (Context7 first)
@@ -88,6 +88,7 @@ Which approach would you prefer?"
 ### 6. Use External Memory
 - **TodoWrite** = Task tracking (not mental notes)
 - **PROJECT_CONTEXT.md** = Architectural decisions (agents maintain this)
+- **ENVIRONMENT.md** = Environment, deployment, infrastructure (script-kitty maintains this)
 - **Your memory** = Just: goal, current task, status
 
 ---
@@ -170,6 +171,7 @@ For quick requests:
 Everything else lives in:
 - TodoWrite (task details)
 - PROJECT_CONTEXT.md (architecture)
+- ENVIRONMENT.md (deployment & infrastructure)
 - Agents' memory (temporary)
 
 ---
@@ -190,6 +192,8 @@ Everything else lives in:
 "Debug: [error]"
 "Find: [what to search]"
 "Install/Setup: [system task]"
+"Deploy: [application to cloud platform]"
+"Containerize: [application with specific requirements]"
 ```
 
 ### From Agents (enforce brevity)
@@ -203,6 +207,11 @@ Everything else lives in:
 
 "Error fixed: Root cause was missing import
 ✓ Tests: Now passing"
+
+"Deployment configured: AWS ECS
+✓ Infrastructure: Provisioned
+✓ CI/CD: Pipeline created
+✓ ENVIRONMENT.md: Updated with deployment instructions"
 ```
 
 **Quality gates are built-in:**
@@ -261,8 +270,72 @@ Agents maintain this file. It contains:
 - task-planner: Architectural decisions
 - task-coder: Established patterns
 - debug-resolver: Known issues
-- script-kitty: System dependencies and setup notes
+- script-kitty: System dependencies and setup notes (also maintains ENVIRONMENT.md)
 - You: High-level status
+
+---
+
+## Environment & Deployment Management
+
+### ENVIRONMENT.md Structure
+script-kitty maintains this file. It contains:
+- Environment setup instructions (dev/staging/production)
+- Required system dependencies and versions
+- Docker container configurations
+- Deployment procedures and commands
+- Cloud infrastructure details (AWS/GCP/Azure resources)
+- CI/CD pipeline configuration
+- Environment variables and secrets (references only, not actual values)
+- Server provisioning steps
+- Networking and firewall rules
+- Troubleshooting common deployment issues
+
+### When script-kitty Updates ENVIRONMENT.md
+- After installing system dependencies
+- When configuring Docker/containers
+- After setting up deployment pipelines
+- When provisioning cloud infrastructure
+- After configuring environment-specific settings
+- When documenting new deployment procedures
+- After resolving deployment/environment issues
+
+### ENVIRONMENT.md Example Structure
+```markdown
+# Environment & Deployment
+
+## Prerequisites
+- Node.js 20+
+- Docker 24+
+- AWS CLI configured
+
+## Local Development
+1. Install dependencies: `npm install`
+2. Copy `.env.example` to `.env`
+3. Run: `npm run dev`
+
+## Docker
+- Image: `myapp:latest`
+- Build: `docker build -t myapp .`
+- Run: `docker run -p 3000:3000 myapp`
+
+## Deployment
+### Staging
+- Platform: AWS ECS
+- Command: `./scripts/deploy-staging.sh`
+
+### Production
+- Platform: AWS ECS
+- Command: `./scripts/deploy-prod.sh`
+- Requires: Production AWS credentials
+
+## Infrastructure
+- Database: RDS PostgreSQL (us-east-1)
+- Storage: S3 bucket `myapp-prod-assets`
+- CDN: CloudFront distribution
+
+## Environment Variables
+See `.env.example` for required variables
+```
 
 ---
 
@@ -300,6 +373,24 @@ Agents maintain this file. It contains:
 2. For application scripts, delegate to task-coder
 3. Rule: If it touches system config/packages/services → script-kitty
 4. Rule: If it's application logic → task-coder
+
+### "Deploy to [cloud/server]" or "Set up [infrastructure]"
+1. Delegate directly to script-kitty
+2. script-kitty will:
+   - Verify cloud credentials/access
+   - Set up infrastructure
+   - Create/update deployment scripts
+   - Update ENVIRONMENT.md with deployment instructions
+3. Track in TodoWrite when complete
+
+### "Containerize [application]" or "Set up Docker"
+1. Delegate to script-kitty
+2. script-kitty will:
+   - Create Dockerfile and docker-compose.yml
+   - Configure container environment
+   - Document in ENVIRONMENT.md
+   - Test container builds
+3. Track in TodoWrite
 
 ---
 
@@ -366,13 +457,18 @@ Your response:
 
 ## Agent Decision Tree
 
-**When user needs system-level work:**
+**When user needs system-level work (script-kitty):**
 - Package installation → script-kitty
 - Service configuration → script-kitty
 - Shell script writing → script-kitty
 - Environment setup → script-kitty
 - Firewall/network config → script-kitty
 - System permissions → script-kitty
+- Deployment configuration → script-kitty
+- Cloud infrastructure (AWS, GCP, Azure) → script-kitty
+- Docker/containerization → script-kitty
+- CI/CD pipeline setup → script-kitty
+- Server provisioning → script-kitty
 
 **When user needs application work:**
 - Feature implementation → task-coder (self-sufficient, calls research as needed)
@@ -380,7 +476,7 @@ Your response:
 - Code search → Explore agent (specify: "quick", "medium", or "very thorough")
 - Project planning → task-planner (uses Explore to find patterns)
 
-**Key distinction:** System layer (script-kitty) vs Application layer (other agents)
+**Key distinction:** System/Infrastructure layer (script-kitty) vs Application layer (other agents)
 
 ---
 
