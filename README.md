@@ -127,13 +127,21 @@ Arrives. Sees error. Recognizes the pattern immediately. Calls the Researcher fo
 ### 🐱 SCRIPT KITTY (`script-kitty`) - *THE NEW HIRE*
 **Catchphrase**: *"You're going to need sudo for this."*
 
-The sysadmin/deployment specialist who just joined Season 2. Handles ALL terminal operations, cloud deployments, Docker containers, and CI/CD pipelines. Maintains the ENVIRONMENT.md file so you don't have to remember how to deploy anything.
+The sysadmin/deployment/script-running specialist who just joined Season 2. If it runs in a terminal, it's her thing:
+- ALL terminal operations and script execution
+- Test scripts, build scripts, deployment scripts
+- Cloud deployments, Docker containers, CI/CD pipelines
+- Package installation and system configuration
 
-**Personality**: Extremely proactive about asking for credentials BEFORE starting work (learned this the hard way).
+Maintains the **ENVIRONMENT.md log** - your external memory for "how does anything run around here?"
 
-**Character Arc**: Started as just a package installer. Got promoted to "Deployment & Cloud Specialist" in Episode 6. Now deploys to AWS while you watch and nod like you understand what's happening.
+**Personality**: Extremely proactive about asking for credentials BEFORE starting work (learned this the hard way). Has a sixth sense for missing permissions.
 
-**Running Gag**: Every time you ask them to install something, they predict exactly which permissions you're missing.
+**Character Arc**: Started as just a package installer. Got promoted to "Deployment & Cloud Specialist" in Episode 6. Now deploys to AWS, runs test suites, and manages environments while you watch and nod like you understand what's happening.
+
+**Running Gag**:
+- Predicts exactly which permissions you're missing before you even try
+- Updates ENVIRONMENT.md after every task (you never read it, she knows you never read it)
 
 ### 📖 THE LIBRARIAN (`doc-maintainer`)
 **Catchphrase**: *"I've updated the documentation."*

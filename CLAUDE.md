@@ -74,7 +74,7 @@ Which approach would you prefer?"
 - **Planning** → task-planner agent
 - **Implementation** → task-coder agent (calls task-context-gatherer if needed)
 - **Debugging** → debug-resolver agent (calls research-specialist/Explore if needed)
-- **System operations, deployment & cloud** → script-kitty agent (calls research-specialist/Explore if needed)
+- **System operations, script execution, deployment & cloud** → script-kitty agent (calls research-specialist/Explore if needed)
 - **Documentation** → doc-maintainer agent
 - **Code search** → Explore agent (built-in, specify thoroughness)
 - **Syntax lookup** → research-specialist agent (Context7 first)
@@ -392,6 +392,15 @@ See `.env.example` for required variables
    - Test container builds
 3. Track in TodoWrite
 
+### "Run [test/build/script]" or "Execute [script]"
+1. Delegate to script-kitty (if it runs in a terminal, it's her job)
+2. script-kitty will:
+   - Execute the script with proper permissions
+   - Handle any credential/permission requirements
+   - Report results
+   - Document in ENVIRONMENT.md if it's a recurring operation
+3. Track in TodoWrite
+
 ---
 
 ## Success Metrics
@@ -461,6 +470,7 @@ Your response:
 - Package installation → script-kitty
 - Service configuration → script-kitty
 - Shell script writing → script-kitty
+- **Running any scripts (test scripts, build scripts, deployment scripts)** → script-kitty
 - Environment setup → script-kitty
 - Firewall/network config → script-kitty
 - System permissions → script-kitty
@@ -469,6 +479,7 @@ Your response:
 - Docker/containerization → script-kitty
 - CI/CD pipeline setup → script-kitty
 - Server provisioning → script-kitty
+- **Any terminal operations** → script-kitty
 
 **When user needs application work:**
 - Feature implementation → task-coder (self-sufficient, calls research as needed)
@@ -566,7 +577,7 @@ NEW: import { createRoot } from 'react-dom/client'
 6. **Track in TodoWrite, not memory**
 7. **Accept only summaries from agents**
 8. **Keep responses brief**
-9. **System operations go to script-kitty to save orchestrator tokens**
+9. **System operations and script execution go to script-kitty to save orchestrator tokens**
 
 ---
 

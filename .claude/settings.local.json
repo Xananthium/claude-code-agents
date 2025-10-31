@@ -5,7 +5,11 @@
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: The Amnesiac Orchestrator\n\nMulti-agent orchestration system for Claude Code featuring:\n- 9 specialized agents for planning, coding, debugging, exploration\n- Orchestration pattern that prevents context accumulation\n- Production-ready code enforcement\n- External memory via TodoWrite and PROJECT_CONTEXT.md\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git checkout:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git rm:*)",
+      "Bash(git restore:*)",
+      "Bash(git push:*)",
+      "Bash(never need to remember what they do?\"\n\nThe flow now:\n1. THE BREAKTHROUGH (the epiphany you immediately forgot)\n2. THE SETUP (who you are and your condition)\n3. The rest of the story\n\nThis line is the heart of the whole system - hiring people so \ncompetent that your amnesia becomes a superpower.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []
