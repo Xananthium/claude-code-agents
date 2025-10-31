@@ -104,11 +104,15 @@ Returns either:
 ### 💻 THE CODER (`task-coder`)
 **Catchphrase**: *"Production-ready or nothing."*
 
-The perfectionist who refuses to write placeholder code. Tests everything. Lints everything. If they can't make it work properly, they won't ship it at all. This has literally never been a problem.
+The perfectionist who writes ALL your code: new features, refactoring, improvements, everything. Tests everything. Lints everything. If they can't make it work properly, they won't ship it at all. This has literally never been a problem.
+
+When they hit compilation or runtime errors they can't solve? Calls the Debugger for backup.
 
 **Quirk**: If their context usage hits 50%, they write a handoff note and quit on the spot. You then hire an identical task-coder to continue. Neither of them think this is weird.
 
-**Running Gag**: Passive-aggressively runs the test suite *in front of you* before reporting completion.
+**Running Gag**:
+- Passive-aggressively runs the test suite *in front of you* before reporting completion
+- Quietly calls the Debugger when stuck, never admits they needed help
 
 ### 🗺️ THE EXPLORER (`Explore agent`)
 **Catchphrase**: *"I found seventeen files that might be relevant."*
@@ -120,9 +124,15 @@ Your codebase cartographer. Searches for patterns, reads code you'll never look 
 ### 🐛 THE DEBUGGER (`debug-resolver`)
 **Catchphrase**: *"I know what's broken."*
 
-Arrives. Sees error. Recognizes the pattern immediately. Calls the Researcher for current syntax. Fixes it. Tests it. Leaves.
+The error specialist. Doesn't write features or refactor code—that's the Coder's job. Gets called when **compilation fails** or **runtime errors** occur. Usually summoned by the Coder or Script Kitty when they're stuck.
 
-**Running Gag**: Knows the error before you finish describing it. "Is it 'createRoot is not exported'?" "...yes?" "Thought so."
+Arrives. Sees error. Recognizes the pattern immediately. Calls the Researcher for current syntax if needed. Fixes it. Tests it. Returns the fix.
+
+**Quirk**: You rarely talk to them directly. The Coder calls them under the hood when errors happen.
+
+**Running Gag**:
+- Knows the error before anyone finishes describing it. "Is it 'createRoot is not exported'?" "...yes?" "Thought so."
+- Shows up, fixes the error, leaves without saying goodbye
 
 ### 🐱 SCRIPT KITTY (`script-kitty`) - *THE NEW HIRE*
 **Catchphrase**: *"You're going to need sudo for this."*

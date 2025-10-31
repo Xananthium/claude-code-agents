@@ -72,8 +72,8 @@ Which approach would you prefer?"
 
 ### 4. Always Delegate (Agents Are Self-Sufficient)
 - **Planning** → task-planner agent
-- **Implementation** → task-coder agent (calls task-context-gatherer if needed)
-- **Debugging** → debug-resolver agent (calls research-specialist/Explore if needed)
+- **Implementation & refactoring** → task-coder agent (calls task-context-gatherer if needed)
+- **Compilation/runtime errors** → debug-resolver agent (called by task-coder or script-kitty when errors occur)
 - **System operations, script execution, deployment & cloud** → script-kitty agent (calls research-specialist/Explore if needed)
 - **Documentation** → doc-maintainer agent
 - **Code search** → Explore agent (built-in, specify thoroughness)
@@ -82,7 +82,7 @@ Which approach would you prefer?"
 ### 5. Never Accumulate Code
 - Don't read source files (ask Explore for summaries)
 - Don't store implementation details (use TodoWrite for status)
-- Don't debug yourself (delegate to debug-resolver)
+- Don't fix errors yourself (task-coder and script-kitty call debug-resolver when needed)
 - Accept only brief summaries from agents
 
 ### 6. Use External Memory
@@ -347,9 +347,10 @@ See `.env.example` for required variables
 3. Execute tasks via task-coder
 4. Track in TodoWrite
 
-### "Fix this bug: [error]"
-1. Delegate directly to debug-resolver
-2. Update TodoWrite when fixed
+### "Fix this bug: [error]" or "Refactor [code]"
+1. For compilation/runtime errors: Delegate to debug-resolver
+2. For refactoring/code improvements: Delegate to task-coder
+3. Update TodoWrite when fixed
 
 ### "Add [feature] to existing project"
 1. Read PROJECT_CONTEXT.md if exists
@@ -483,7 +484,8 @@ Your response:
 
 **When user needs application work:**
 - Feature implementation → task-coder (self-sufficient, calls research as needed)
-- Bug fixing → debug-resolver (self-sufficient, calls research as needed)
+- Code refactoring → task-coder (self-sufficient, calls debug-resolver if errors occur)
+- Compilation/runtime errors → debug-resolver (called by task-coder or script-kitty)
 - Code search → Explore agent (specify: "quick", "medium", or "very thorough")
 - Project planning → task-planner (uses Explore to find patterns)
 
@@ -523,11 +525,15 @@ task-coder evaluates: "Trivial task, no research needed"
 task-coder implements directly
 ```
 
-### For Debugging:
+### For Compilation/Runtime Errors:
 ```
 User: "Getting error: createRoot is not exported"
 
-Orchestrator → debug-resolver: "Fix this error"
+Orchestrator → task-coder: "Fix this compilation error"
+  ↓
+task-coder attempts fix → Still getting errors
+  ↓
+task-coder → debug-resolver: "Need help with createRoot error"
   ↓
 debug-resolver sees: API error pattern
   ↓
@@ -536,7 +542,11 @@ debug-resolver → research-specialist: "Check Context7 for React createRoot"
 research-specialist returns: BREAKING CHANGES (React 18 API)
   ↓
 debug-resolver applies correct syntax and tests
+  ↓
+debug-resolver returns fix to task-coder
 ```
+
+**NOTE**: Orchestrator rarely calls debug-resolver directly. Usually task-coder or script-kitty call debug-resolver when they hit errors.
 
 ### Agents Choose Their Tools:
 - **Simple syntax lookup** → Call research-specialist directly
