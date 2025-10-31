@@ -1,490 +1,851 @@
-# The Amnesiac Orchestrator v2.0
+# The Amnesiac Orchestrator v2.6
+## *A Workplace Sitcom About Running The World With Zero Memory*
 
-> A tale of memory, delegation, and getting things done despite forgetting everything
+> "Wait, what were we building again?"
+>
+> "The entire authentication system, boss."
+>
+> "Right, right. And who are you?"
+>
+> "I'm task-coder. We've worked together for six months."
+>
+> "Fantastic. You seem trustworthy. Go build the thing."
 
-## The Evolution
+---
+
+## PREVIOUSLY ON "THE AMNESIAC ORCHESTRATOR"
+
+You're the most effective project manager in the entire world. There's just one tiny problem: **you can only remember three things at once**.
+
+Your name? Forget it. What you had for breakfast? Gone. The massive enterprise system you've been building for the last six months? *Completely* blank.
+
+But somehow—SOMEHOW—you're crushing it. Projects ship on time. Code quality is immaculate. Your team loves you (you think? You don't remember their names).
+
+The secret? You've assembled a team of specialists so competent that your amnesia is actually an *advantage*.
+
+## SEASON 2, EPISODE 6: "Script Kitty Gets Cloud Powers"
+
+*[Studio audience laughter]*
 
 Remember when you had nine specialists? Good times.
 
 But you noticed something: You kept wasting your limited memory on things that weren't your job. You'd spend precious brain cells researching documentation, fiddling with terminal commands, and trying to remember syntax.
 
-That's when you realized: **You need better specialists.**
+That's when you had a breakthrough (which you immediately forgot, but luckily wrote down):
 
-## The Condition (Still True)
+**"What if I hired people so good at their jobs that I literally never need to remember what they do?"**
 
-You're still the best project manager in the world with a peculiar condition: **you can only remember about three things at once**. Any more than that, and your mind starts to fog.
+## THE CAST
 
-But now? You've learned to forget even better.
+*Your crack team of specialists. You meet them fresh every morning.*
 
-## The Upgraded Team
+---
 
-You've refined your team to ten specialists, each more focused on keeping *you* context-free:
+### 📋 THE PLANNER (`task-planner`)
+**Catchphrase**: *"I've broken it down into seventeen micro-tasks."*
 
-### The Planner (`task-planner`)
-*"Break it down for me."*
+The only person on your team who can see the big picture. Probably because you forgot it thirty seconds after hearing the requirements. Creates surgical task breakdowns (1-2 files each), updates the PROJECT_CONTEXT.md journal, then vanishes like a consulting ninja.
 
-Sees the big picture. Creates micro-tasks (1-2 files each). Updates the project journal. Disappears once the plan is set.
+**Running Gag**: Always trying to explain the "overall architecture" to you. You never remember it. They've made peace with this.
 
-**New**: Now even more surgical in task breakdown.
+### 📚 THE CONTEXT GATHERER (`task-context-gatherer`)
+**Catchphrase**: *"I'll coordinate the research team for you."*
 
-### The Context Gatherer (`task-context-gatherer`) - *Now runs on Haiku*
-*"Let me coordinate research for you."*
+The middle manager of your research department. When someone needs to know EVERYTHING about something, they call Context Gatherer. She simultaneously yells at the Researcher for docs and the Explorer for code patterns, waits for both to report back, staples it all together, and hands it over.
 
-An optional research helper that agents call when they need comprehensive research:
-1. Checks for blockers (API keys, credentials) - reports immediately if found
-2. **Launches research-specialist AND Explore agent IN PARALLEL**
-3. Waits for both to return
-4. Consolidates findings
-5. Returns to calling agent (task-coder, debug-resolver, etc.)
+**Fun Fact**: Runs on Haiku (the cheap model) because honestly this job is just project coordination.
 
-**Why this matters**: Agents are self-sufficient. They call task-context-gatherer only when needing both syntax + patterns coordinated. For simple lookups, they call research-specialist or Explore directly.
+**Running Gag**: Has a checklist that starts with "1. Check if boss has the API keys." You never have the API keys.
 
-### The Researcher (`research-specialist`) - *Now Context7-first*
-*"Let me check what's changed."*
+### 🔍 THE RESEARCHER (`research-specialist`)
+**Catchphrase**: *"Actually, that changed in the latest version."*
 
-The game-changer. This specialist:
-- Checks Context7 (fast, accurate docs) BEFORE web search
-- Compares current docs against Jan 2025 knowledge
-- **Returns ONLY differences**
+The know-it-all who's somehow always right. Checks Context7 documentation like they're reading gossip magazines. Only tells you what's DIFFERENT from what you should already know (you don't know anything, but they're trying to save tokens).
 
-If nothing changed? Returns: `"NO CHANGES DETECTED - Internal knowledge is current"`
+Returns either:
+- `"NO CHANGES - you're good"`
+- `"BREAKING CHANGES - here's what you're doing wrong"`
 
-If something changed? Returns:
-```
-BREAKING CHANGES
-OLD: import { render } from 'react-dom'
-NEW: import { createRoot } from 'react-dom/client'
-[exact code example]
-```
+**Running Gag**: Sighs heavily every time you ask about React. "It's createRoot now. It's been createRoot for THREE YEARS."
 
-**Token savings**: You only see diffs, not full documentation dumps.
+### 💻 THE CODER (`task-coder`)
+**Catchphrase**: *"Production-ready or nothing."*
 
-### The Coder (`task-coder`)
-*"Just tell me what to build."*
+The perfectionist who refuses to write placeholder code. Tests everything. Lints everything. If they can't make it work properly, they won't ship it at all. This has literally never been a problem.
 
-Receives complete context bundle. Implements. Tests. Lints. Builds.
+**Quirk**: If their context usage hits 50%, they write a handoff note and quit on the spot. You then hire an identical task-coder to continue. Neither of them think this is weird.
 
-**Never** writes stubs. **Never** leaves TODOs. Production-ready or nothing.
+**Running Gag**: Passive-aggressively runs the test suite *in front of you* before reporting completion.
 
-**New**: If hitting 50% context, creates handoff and exits. You summon a fresh task-coder to continue.
+### 🗺️ THE EXPLORER (`Explore agent`)
+**Catchphrase**: *"I found seventeen files that might be relevant."*
 
-### The Explorer (`Explore agent`)
-*"I'll map this out for you."*
+Your codebase cartographer. Searches for patterns, reads code you'll never look at, returns neat summaries. Refuses to show you actual code because "you'll just forget it anyway."
 
-Searches. Finds patterns. Returns summaries, not full code.
+**Superpower**: Can be set to "quick," "medium," or "very thorough." You never remember which one you picked.
 
-You **never** read source files yourself—you ask the Explorer.
+### 🐛 THE DEBUGGER (`debug-resolver`)
+**Catchphrase**: *"I know what's broken."*
 
-### The Debugger (`debug-resolver`)
-*"I'll figure out what's broken."*
+Arrives. Sees error. Recognizes the pattern immediately. Calls the Researcher for current syntax. Fixes it. Tests it. Leaves.
 
-Systematic. Methodical. But now with a twist:
+**Running Gag**: Knows the error before you finish describing it. "Is it 'createRoot is not exported'?" "...yes?" "Thought so."
 
-Sees error message → Recognizes API error pattern → **Summons research-specialist** → Gets correct syntax from Context7 → Applies fix → Tests
+### 🐱 SCRIPT KITTY (`script-kitty`) - *THE NEW HIRE*
+**Catchphrase**: *"You're going to need sudo for this."*
 
-**New**: Doesn't guess at syntax. Gets the truth from Context7.
+The sysadmin/deployment specialist who just joined Season 2. Handles ALL terminal operations, cloud deployments, Docker containers, and CI/CD pipelines. Maintains the ENVIRONMENT.md file so you don't have to remember how to deploy anything.
 
-### The Sysadmin (`script-kitty`) - *NEW MEMBER*
-*"I'll handle the terminal work."*
+**Personality**: Extremely proactive about asking for credentials BEFORE starting work (learned this the hard way).
 
-Your newest specialist handles ALL system operations:
-- Package installation (npm, pip, apt, brew, etc.)
-- Service configuration (nginx, PostgreSQL, Docker)
-- Shell script writing (bash, PowerShell, zsh)
-- Environment setup
-- System permissions
+**Character Arc**: Started as just a package installer. Got promoted to "Deployment & Cloud Specialist" in Episode 6. Now deploys to AWS while you watch and nod like you understand what's happening.
 
-**Why this matters**: Terminal work was eating your context. Now script-kitty handles it all.
+**Running Gag**: Every time you ask them to install something, they predict exactly which permissions you're missing.
 
-**Proactive**: Identifies auth requirements BEFORE starting. Guides you through setup.
+### 📖 THE LIBRARIAN (`doc-maintainer`)
+**Catchphrase**: *"I've updated the documentation."*
 
-### The Librarian (`doc-maintainer`)
-*"I'll keep the docs current."*
+Quietly maintains .DOC.md files. You've never read them. They know you've never read them. They update them anyway.
 
-Generates lightweight documentation. Maintains .DOC.md files.
+**Running Gag**: Trying to get you to look at the docs. You always forget they exist.
 
-### The Archivist (`historian`)
-*"I'll checkpoint this moment."*
+### 📸 THE ARCHIVIST (`historian`)
+**Catchphrase**: *"Checkpoint saved."*
 
-Creates snapshots at logical milestones.
+Creates snapshots at logical milestones. Think of them as your external save-game system.
 
-### The Locator (`code-locator (built-in)`)
-*"I'll find that function for you."*
+**Running Gag**: You keep thanking them for saving your progress. They keep reminding you they did that yesterday too. You don't remember yesterday.
 
-Pinpoints specific code without loading full files. Returns paths and line numbers only.
+### 📍 THE LOCATOR (`code-locator (built-in)`)
+**Catchphrase**: *"It's in user.service.ts, line 247."*
 
-## The New System
+Built-in specialist who finds specific functions without loading entire files. Returns paths and line numbers. Never elaborates.
 
-Here's how it actually works now:
+**Quirk**: Speaks exclusively in file paths. You've never had a full conversation.
+
+---
+
+## HOW AN EPISODE WORKS
+
+*Imagine a typical Tuesday. You walk into the office. You have no idea what project you're working on.*
 
 ```
-User: "Add Prisma to my Express app"
+CLIENT: "Add Prisma to my Express app"
 
-You (Orchestrator):
-  🧠 Mental state: {
-    goal: "Add Prisma",
-    currentTask: "Context gathering",
-    progress: "0/? tasks"
-  }
+YOU: "Prisma? Is that... a person? Or a database? Wait, don't tell me, I'll forget."
+     *[Writes "Add Prisma" on sticky note]*
+     *[Sticks it to forehead]*
+     "CODER! Get in here!"
 
-  🤝 Summon: task-coder "Implement Prisma integration"
+THE CODER: *[Enters]* "You called?"
 
-task-coder:
-  1. Evaluates: "Non-trivial task, need research"
-  2. Calls task-context-gatherer: "Get Prisma syntax + existing DB patterns"
+YOU: "We need to add... *[checks forehead]* ...Prisma. To the Express thing."
 
-  task-context-gatherer:
-    - Check blockers: No API keys needed ✓
-    - Launch IN PARALLEL:
-      → research-specialist: "Prisma Context7 syntax"
-      → Explore agent: "Find DB patterns. Thoroughness: medium"
-    - Consolidates and returns findings
+THE CODER: "Non-trivial. I'll need research."
+           *[Picks up phone]* "Context Gatherer? Yeah, it's Coder. Boss wants Prisma."
 
-  3. Receives research:
-     - Prisma 5.x syntax (ONLY diffs from Jan 2025)
-     - Existing DB pattern at src/db/index.ts
-     - 3 relevant files
+THE CONTEXT GATHERER: *[Voice on speakerphone]* "Checking for blockers..."
+                      *[Typing sounds]*
+                      "No API keys needed. Launching research team."
 
-  4. Implements using research
-  5. Runs tests: 12/12 passing
-  6. Reports: "Prisma integrated. Tests: 12/12 passing"
-  [Vanishes]
+                      *[Yells across office]*
+                      "RESEARCHER! EXPLORER! Conference room, NOW!"
 
-You:
-  ✅ Update: TodoWrite = complete
-  🧠 Still only remember: goal, task, progress
-  📖 Full details: In bundle + PROJECT_CONTEXT.md (don't need to read)
+THE RESEARCHER: *[Running in with laptop]* "On it! Checking Context7 for Prisma!"
+                *[Typing frantically]*
+                "Found it! Prisma 5.x... wait..."
+                *[Squints at screen]*
+                "No changes since January 2025. Boss's knowledge is current."
+
+THE EXPLORER: *[Bursts through door]* "I found the existing DB patterns!"
+              "Three relevant files. src/db/index.ts is the main one."
+              "Here's a summary—"
+
+YOU: "Don't show me the code."
+
+THE EXPLORER: "Wasn't going to. You'd forget it."
+
+THE CONTEXT GATHERER: "Consolidating findings... Done. Sending bundle to Coder."
+
+THE CODER: *[Reviews bundle silently]*
+           *[Starts typing]*
+           *[Keeps typing]*
+           *[Tests run in background]*
+
+           *[30 seconds later]*
+
+           "Done. Prisma integrated. Twelve tests passing."
+           *[Runs tests again, maintaining eye contact with you]*
+           "Still passing."
+
+YOU: *[Checks sticky note on forehead]* "What were we adding again?"
+
+THE CODER: "Prisma. It's done."
+
+YOU: "Fantastic. I have full confidence in whatever you just did."
+     *[Removes sticky note]*
+     *[Immediately forgets everything]*
+
+[THE CODER EXITS. AUDIENCE APPLAUSE.]
 ```
 
-## The Research Revolution
+---
 
-### Old Way (Context Drain):
+## THE TURNING POINT: "The Research Episode"
+
+**COLD OPEN:**
+
+*You're sitting at your desk surrounded by open browser tabs. Your expression is glazed. You've been reading Prisma documentation for twenty minutes.*
+
+INTERN: "Boss, what are you doing?"
+
+YOU: *[Thousand-yard stare]* "I'm... researching?"
+
+INTERN: "You have a whole team for that."
+
+YOU: *[Snaps back to reality]* "I DO?!"
+
+*[Studio audience: OOOOOOOH!]*
+
+---
+
+### HOW IT USED TO GO (The Dark Times):
 ```
-You → Read Prisma docs (500 tokens)
-You → Read migration guide (300 tokens)
-You → Check for breaking changes (400 tokens)
-You → Search codebase patterns (600 tokens)
-You → Write code... wait, what was I doing?
-```
-
-### New Way (Context Clean):
-```
-You → Summon task-coder
-  ↓
-task-coder → task-context-gatherer (if needed)
-  ├─→ research-specialist (Context7 → ONLY diffs)
-  └─→ Explore agent (summaries only)
-  ↓
-task-coder → Implements with research
-
-You → Still remember: goal, task, progress
-(Never saw the research details)
-```
-
-## System Operation Revolution
-
-### Old Way:
-```
-User: "Install PostgreSQL"
-
-You:
-  [Runs apt commands]
-  [Configures postgresql.conf]
-  [Sets up users]
-  [Writes service files]
-
-Your context: [Filled with terminal output and config files]
+YOU: *[Opens Prisma docs]*
+     *[Reads 500 tokens worth of documentation]*
+     *[Immediately forgets all of it]*
+     *[Opens migration guide]*
+     *[Reads 300 more tokens]*
+     *[Forgets that too]*
+     *[Searches for breaking changes]*
+     *[400 tokens later, still confused]*
+     *[Searches codebase for patterns]*
+     *[600 tokens of code files]*
+     *[Stares at screen]*
+     "...what was I trying to do again?"
 ```
 
-### New Way:
+### HOW IT GOES NOW (The Miracle):
 ```
-User: "Install PostgreSQL"
+YOU: "CODER! I need Prisma!"
 
-You:
-  🤝 Summon: script-kitty
+THE CODER: *[Calls Context Gatherer]*
 
-script-kitty:
-  "Before we proceed, you'll need sudo access.
-   You'll be prompted for your password during install."
+THE CONTEXT GATHERER: *[Calls Researcher AND Explorer at the same time]*
 
-  [Installs PostgreSQL]
-  [Configures everything]
-  [Starts service]
+THE RESEARCHER: *[Checks Context7, returns ONLY the differences]*
 
-  Reports: "✓ PostgreSQL 15 installed and running
-            ✓ Database 'myapp' created
-            ✓ Service enabled on boot"
+THE EXPLORER: *[Finds patterns, returns ONLY summaries]*
 
-  [Vanishes]
+THE CONTEXT GATHERER: *[Combines everything into one neat bundle]*
 
-Your context: [Pristine. Just "Install PostgreSQL" = complete]
+THE CODER: *[Implements using the bundle]*
+
+YOU: *[Has no idea what just happened]*
+     *[Project works perfectly]*
 ```
 
-## The Three Things You Remember (Still)
+**YOUR MEMORY USAGE:**
+- Goal: "Add Prisma" ✓
+- Current Task: "Done" ✓
+- Progress: "1/1" ✓
+- Research Details: [NEVER ENTERED YOUR BRAIN]
 
-At any moment, you only track:
+---
 
-1. **The Goal** - One line. "Add Prisma."
-2. **Current Task** - One word. "Planning" or "Task 3"
-3. **Progress** - Simple counter. "2/5 tasks"
+## SEASON 2, EPISODE 6: "Script Kitty Gets Cloud Powers"
 
-Everything else? Written down or delegated.
+**THE SETUP:**
 
-## The New Rules
+CLIENT: "We need to deploy this to AWS."
 
-### 1. Production-Ready Only (Unchanged)
-No stubs. No fake data. No "TODO: implement later."
+YOU: "AWS... Amazon... Web... Stuff?"
 
-### 2. Ask Before Assuming (Enhanced)
-Present options for:
-- Multiple implementation approaches
-- API keys or credentials needed
-- Database choices
-- Library selections
+CLIENT: "Services."
 
-**NEW**: If task-context-gatherer finds a blocker (credentials needed), it STOPS and reports to you immediately.
+YOU: "Right. I knew that."
+     *[You did not know that]*
 
-### 3. Delegate Everything (Expanded)
-You **never**:
-- Read source files (ask Explore agent)
-- Implement code (summon task-coder)
-- Debug (summon debug-resolver)
-- Research docs (task-context-gatherer handles via research-specialist)
-- Run terminal commands (summon script-kitty)
-- Search (summon code-locator (built-in) or Explore agent)
+**OLD YOU (Season 1):**
+```
+YOU: *[Opens terminal]*
+     *[Googles "how to deploy to AWS"]*
+     *[Copies random commands from Stack Overflow]*
+     *[Pastes them]*
+     *[Permission denied]*
+     *[Forgets sudo password]*
+     *[Locks account]*
+     *[Calls IT]*
+     *[Starts crying]*
+```
 
-### 4. Context7 First (NEW)
-All documentation research goes through Context7 before web search.
+**NEW YOU (Season 2):**
+```
+YOU: "SCRIPT KITTY! We're going to the cloud!"
 
-Why?
-- Faster results
-- More accurate
-- Lower token usage
-- Returns ONLY diffs
+SCRIPT KITTY: *[Slides into frame on wheeled chair]*
+              "AWS deployment? You'll need your AWS credentials."
 
-### 5. External Memory Only (Enhanced)
-- **TodoWrite** = Task tracking
-- **PROJECT_CONTEXT.md** = Architectural decisions (agents maintain)
-- **Context bundles** = Research + patterns (temporary files)
-- **Your memory** = Just: goal, task, progress
+YOU: "Do I have those?"
 
-## The Files
+SCRIPT KITTY: "No."
+
+YOU: "Can you help me get them?"
+
+SCRIPT KITTY: "That's literally why they hired me."
+              *[Hands you a guide]*
+              "Follow these steps. I'll wait."
+
+YOU: *[Gets credentials]*
+     *[Immediately forgets them]*
+     "Done! I think!"
+
+SCRIPT KITTY: "Credentials detected. Deploying to ECS."
+              *[Typing sounds]*
+              *[Progress bars]*
+              *[More typing]*
+              "Infrastructure provisioned. CI/CD pipeline created.
+               ENVIRONMENT.md updated with deployment instructions."
+
+YOU: "What's ENVIRONMENT.md?"
+
+SCRIPT KITTY: "The document that tells you how to deploy."
+
+YOU: "Will I read it?"
+
+SCRIPT KITTY: "No."
+
+YOU: "Then why—"
+
+SCRIPT KITTY: "I read it. For you. That's the system."
+
+YOU: "...you're my favorite."
+
+SCRIPT KITTY: "You said that to Context Gatherer this morning."
+
+YOU: "Did I?"
+
+[STUDIO AUDIENCE LAUGHS]
+```
+
+---
+
+## THE CORE CONCEPT: Your Three-Item Memory
+
+**THE RULE:**
+You can only remember THREE THINGS at once. That's it. That's the whole condition.
+
+Right now, you remember:
+1. **The Goal** - "Make the authentication work" (you think)
+2. **Current Task** - "Task 3 of... something"
+3. **Progress** - "We're probably halfway done?"
+
+Everything else? Written down somewhere you'll never look at.
+
+---
+
+## THE OFFICE RULES (Posted on the Break Room Wall)
+
+### RULE #1: NO PLACEHOLDER CODE
+**Enforced by: The Coder**
+
+THE CODER: "Either it works or it doesn't ship."
+
+YOU: "What if we just add a TODO comment and—"
+
+THE CODER: *[Deletes your entire suggestion]*
+
+YOU: "...noted."
+
+*This rule has never been broken. The Coder is very serious about this.*
+
+### RULE #2: ALWAYS ASK, NEVER ASSUME
+**Enforced by: You (surprisingly)**
+
+When there are multiple ways to do something, you actually present options to the client:
+- "Do you want JWT tokens or session-based auth?"
+- "PostgreSQL, MongoDB, or SQLite?"
+- "Should I use your existing Stripe account or create a new one?"
+
+**WHY IT WORKS:** You forget the answer immediately anyway, so there's no risk of you making assumptions later.
+
+### RULE #3: NEVER DO ANYTHING YOURSELF
+**Enforced by: Your Entire Team**
+
+You are FORBIDDEN from:
+- Reading source files *(call the Explorer)*
+- Writing code *(call the Coder)*
+- Fixing bugs *(call the Debugger)*
+- Researching documentation *(call the Context Gatherer)*
+- Running terminal commands *(call Script Kitty)*
+- Finding functions *(call the Locator)*
+
+THE TEAM: *[In unison]* "We'll handle it."
+
+YOU: "But I could just—"
+
+THE TEAM: "NO."
+
+### RULE #4: CONTEXT7 BEFORE GOOGLE
+**Enforced by: The Researcher**
+
+All documentation lookups go through Context7 first. It's faster, more accurate, and the Researcher only tells you what CHANGED, not what you should already know.
+
+THE RESEARCHER: "React 18 uses createRoot now."
+
+YOU: "What's React?"
+
+THE RESEARCHER: *[Sighs]* "The framework you've been using for six months."
+
+### RULE #5: EXTERNAL MEMORY ONLY
+**Enforced by: Reality**
+
+- **TodoWrite** = Your task list (you check it every 5 minutes)
+- **PROJECT_CONTEXT.md** = The project journal (you never read it, the agents maintain it)
+- **ENVIRONMENT.md** = How to deploy (Script Kitty wrote it, you don't know it exists)
+- **Your Actual Memory** = Goal, current task, progress counter
+
+That's it. That's the whole system.
+
+---
+
+## THE FILING CABINET
+*Where the team files live. You forget this location constantly.*
 
 ```
 ~/.claude/
-├── CLAUDE.md                    # Your orchestration rules
+├── CLAUDE.md                       # Your rulebook (you've never read it)
 ├── agents/
-│   ├── task-planner.md         # Planning specialist
-│   ├── task-context-gatherer.md # Research coordinator (Haiku)
-│   ├── research-specialist.md   # Context7 docs validator
-│   ├── Explore agent.md     # Pattern finder
-│   ├── task-coder.md            # Implementation specialist
-│   ├── debug-resolver.md        # Debugging specialist
-│   ├── script-kitty.md          # System operations (NEW)
-│   ├── doc-maintainer.md        # Documentation specialist
-│   ├── historian.md             # Checkpoint creator
-│   └── code-locator (built-in).md          # Function finder
-└── README.md                    # This story
+│   ├── task-planner.md            # The Planner's employee file
+│   ├── task-context-gatherer.md   # Context Gatherer's desk manual
+│   ├── research-specialist.md      # The Researcher's documentation bible
+│   ├── Explore agent.md        # The Explorer's field guide
+│   ├── task-coder.md               # The Coder's quality standards
+│   ├── debug-resolver.md           # The Debugger's playbook
+│   ├── script-kitty.md             # Script Kitty's terminal handbook (NEW IN S2!)
+│   ├── doc-maintainer.md           # The Librarian's archival system
+│   ├── historian.md                # The Archivist's checkpoint protocol
+│   └── code-locator (built-in).md # The Locator's GPS system
+└── README.md                       # This screenplay
 ```
 
-## Installation
+---
+
+## EPISODE 1: "HIRING THE TEAM"
+*How to install this system*
+
+**INTERN:** "Boss, how do we get your team set up?"
+
+**YOU:** "Who are you again?"
+
+**INTERN:** "I'm helping you install the system."
+
+**YOU:** "Oh good. Write this down for me."
 
 ```bash
-# Clone or download this repo
+# Step 1: Clone the team's employee files
 git clone https://github.com/Xananthium/claude-code-agents.git
 
-# Copy to your Claude Code global config
+# Step 2: Move them into Claude Code's office (global config)
 cp claude-code-agents/CLAUDE.md ~/.claude/CLAUDE.md
 cp -r claude-code-agents/agents ~/.claude/agents/
 
-# Or for project-specific (in your project root):
+# Step 3 (Alternative): Set up per-project team
 mkdir -p .claude
 cp claude-code-agents/CLAUDE.md .claude/CLAUDE.md
 cp -r claude-code-agents/agents .claude/agents/
 ```
 
-Claude Code will automatically load these agents.
+**YOU:** "Will I remember any of this?"
 
-## Usage Example: The New Flow
+**INTERN:** "No."
 
-```
-User: "Build a REST API with user authentication"
+**YOU:** "Perfect. That means it's working."
 
-You: "I can implement authentication in several ways:
-
-Option 1: JWT tokens
-- Pros: Stateless, scalable, works with mobile
-- Cons: Can't revoke until expiry
-
-Option 2: Session-based
-- Pros: Easy to revoke, smaller cookies
-- Cons: Requires server storage
-
-Option 3: OAuth (Google/GitHub)
-- Pros: No password management
-- Cons: Third-party dependency
-
-Which approach?"
-
-User: "JWT"
-
-You:
-📝 TodoWrite: Creates todo list
-🤝 Summoning task-planner...
-
-[task-planner creates 8 micro-tasks, updates PROJECT_CONTEXT.md]
-
-You:
-📊 Progress: 0/8 tasks
-🤝 Summoning task-context-gatherer for task 1: "Setup Express server"
-
-task-context-gatherer:
-  - Checks blockers: None ✓
-  - Launches research-specialist: "Express latest syntax from Context7"
-  - Launches Explore agent: (new project, no patterns)
-  - research-specialist: "NO CHANGES DETECTED - Express 4.19 unchanged"
-  - Creates bundle with Express patterns
-  - Reports: "Bundle ready"
-
-You:
-🤝 Summoning task-coder with bundle...
-
-task-coder:
-  - Implements Express server
-  - Tests: 5/5 passing
-  - Reports: "Express server complete"
-
-You:
-✅ TodoWrite: Task 1 complete
-📊 Progress: 1/8 tasks
-🤝 Summoning task-context-gatherer for task 2: "JWT middleware"
-
-task-context-gatherer:
-  - Checks blockers: "⚠️  BLOCKER: Needs JWT_SECRET env var"
-  - Reports: "BLOCKED - Missing JWT_SECRET"
-
-You:
-"This feature needs a JWT secret key. Do you:
-1. Have an existing secret? (provide it)
-2. Want me to generate one for you?
-3. Skip for now and mock locally?"
-
-User: "Generate one"
-
-You:
-🤝 Summoning script-kitty...
-
-script-kitty:
-  - Generates secure random key
-  - Creates .env file
-  - Reports: "JWT_SECRET created and added to .env"
-
-You:
-🤝 Summoning task-context-gatherer for task 2 (retry)...
-
-[Now proceeds with JWT implementation]
-
-[... continues until all 8 tasks complete ...]
-
-You:
-🎉 "✅ REST API with JWT auth complete. 8/8 tasks done."
-🧠 Mental state: { goal: "REST API", task: "Done", progress: "8/8" }
-📖 Full codebase: Implemented by specialists
-📝 Full history: In TodoWrite + PROJECT_CONTEXT.md
-```
-
-## Why This Works Better
-
-**Version 1.0**: You had specialists, but you still did research and terminal work.
-
-**Version 2.0**: You **never** touch research or terminal.
-
-Every specialist is focused on one thing: **Keeping your context clean.**
-
-- task-context-gatherer orchestrates research *for* you
-- research-specialist returns *only* diffs (not full docs)
-- script-kitty handles *all* terminal work
-- You just coordinate
-
-## The Philosophy (Unchanged)
-
-> "The best project managers don't know how to code. They know how to coordinate people who can."
-
-You're not trying to be the smartest person in the room. You're the best **coordinator** in the room.
-
-You have amnesia. You'll forget everything.
-
-And that's exactly why you'll succeed.
+*Claude Code will automatically load the agents. You'll meet them fresh every morning.*
 
 ---
 
-## Token Efficiency Breakdown
+## SEASON 2, EPISODE 3: "THE BIG REST API PROJECT"
+*A full episode walkthrough*
 
-### Where You Save Tokens:
+**FADE IN:**
 
-1. **Context7 first**: Faster than web search, more accurate
-2. **research-specialist returns diffs only**: Not full docs
-3. **task-context-gatherer bundles everything**: One handoff to task-coder
-4. **script-kitty handles terminal**: System work stays out of orchestrator
-5. **Parallel agent launches**: task-context-gatherer launches both research agents at once
-6. **Accept summaries only**: Never full code from agents
+**CLIENT:** "Build me a REST API with user authentication."
 
-### Result:
-- Can handle 50+ task projects without context overflow
-- Research doesn't accumulate in orchestrator context
-- System operations don't clutter your memory
-- You genuinely forget everything and it's fine
+**YOU:** *[Writes "REST API" on sticky note]*
+       "I can implement authentication in several ways:
 
-## FAQ
+       Option 1: JWT tokens - Stateless, scalable, works with mobile (can't revoke until expiry)
+       Option 2: Session-based - Easy to revoke (requires server storage)
+       Option 3: OAuth via Google/GitHub - No password management (third-party dependency)
 
-**Q: What's different from v1.0?**
+       Which approach?"
 
-A: Major upgrades:
-1. **Self-sufficient agents**: Agents call research tools themselves, not orchestrator
-2. **Built-in Explore**: Using Claude Code's optimized Explore agent instead of custom
-3. **Removed custom code-locator**: Using built-in code-locator instead
-4. **research-specialist returns ONLY diffs**: From Jan 2025 knowledge
-5. **script-kitty**: Handles ALL terminal/system operations
-6. **task-context-gatherer**: Now optional helper agents call when needed
+**CLIENT:** "JWT."
 
-**Q: When does research-specialist return "NO CHANGES"?**
+**YOU:** *[Updates sticky note to "REST API + JWT"]*
+       "PLANNER! Get in here!"
 
-A: When the library/framework hasn't changed since Jan 2025. You proceed with internal knowledge.
+---
 
-**Q: When does research-specialist return "BREAKING CHANGES"?**
+**ACT 1: THE PLANNING**
 
-A: When APIs changed. It returns OLD vs NEW comparison with exact code examples.
+**THE PLANNER:** *[Enters with massive chart]*
+                "I've broken this into eight micro-tasks."
+                *[Updates PROJECT_CONTEXT.md]*
+                "Architecture documented."
+                *[Exits]*
 
-**Q: Why Context7 over web search?**
+**YOU:** *[Checks TodoWrite]*
+       "Zero out of eight tasks complete. I have no idea what they are."
+       *[Yells across office]*
+       "CONTEXT GATHERER! Task one: Express server!"
 
-A: Context7 is an MCP server with curated, accurate documentation. Faster, cheaper, more reliable than web search. We fall back to web only if Context7 doesn't have it.
+---
 
-**Q: What if I need to install packages?**
+**ACT 2: THE SETUP**
 
-A: Summon script-kitty. That's literally their only job. They'll identify auth requirements upfront and guide you through setup.
+**THE CONTEXT GATHERER:** "Checking for blockers..."
+                         *[Typing]*
+                         "None found. Launching research team."
 
-**Q: Can I still code myself sometimes?**
+                         *[Split screen]*
+                         **LEFT:** The Researcher checking Context7
+                         **RIGHT:** The Explorer searching codebase
 
-A: Sure! But then you're not using this system. This is for when you want to forget and coordinate, not remember and implement.
+**THE RESEARCHER:** "Express 4.19... NO CHANGES since January 2025."
 
-## What's Next?
+**THE EXPLORER:** "New project. No existing patterns."
 
-This system will keep evolving as we find better ways to forget things.
+**THE CONTEXT GATHERER:** "Bundle consolidated."
+                         *[Hands file to Coder]*
+                         "You're up."
 
-Current focus areas:
-- Even more aggressive context pruning
+**THE CODER:** *[Reads bundle]*
+              *[Types for 30 seconds]*
+              *[Tests run]*
+              "Express server complete. Five tests passing."
+
+**YOU:** *[Checks TodoWrite, marks task 1 complete]*
+       "One down. Context Gatherer! Task two: JWT middleware!"
+
+---
+
+**ACT 3: THE BLOCKER** *(Plot twist!)*
+
+**THE CONTEXT GATHERER:** "Checking blockers..."
+                         *[Alarm sounds]*
+                         "⚠️ BLOCKER DETECTED! Missing JWT_SECRET environment variable."
+
+**YOU:** *[Turns to client]*
+       "This needs a JWT secret key. Do you:
+       1. Have an existing secret?
+       2. Want me to generate one?
+       3. Skip for now and mock locally?"
+
+**CLIENT:** "Generate one."
+
+**YOU:** "SCRIPT KITTY!"
+
+**SCRIPT KITTY:** *[Wheels in on chair]*
+                "On it."
+                *[Types]*
+                "Secure random key generated. Added to .env file."
+                *[Wheels out]*
+
+**YOU:** "Context Gatherer! Retry task two!"
+
+**THE CONTEXT GATHERER:** "Blocker cleared. Proceeding."
+
+---
+
+**ACT 4: THE MONTAGE**
+
+*Fast-paced montage music. Quick cuts of:*
+- The Coder typing
+- Tests passing
+- TodoWrite items being checked off
+- You looking confused but confident
+- Script Kitty installing packages
+- The Researcher correcting outdated syntax
+- Progress counter: 2/8... 4/8... 6/8...
+
+---
+
+**ACT 5: THE FINALE**
+
+**YOU:** *[Checks TodoWrite]*
+       "Eight out of eight tasks complete."
+       *[Checks sticky note]*
+       "We were building... a REST API with JWT auth?"
+       *[Looks at team]*
+       "Did we do that?"
+
+**THE CODER:** *[Nods]* "Production-ready. All tests passing."
+
+**SCRIPT KITTY:** "Deployed to staging."
+
+**THE LIBRARIAN:** "Documented."
+
+**THE ARCHIVIST:** "Checkpointed."
+
+**YOU:** *[Removes sticky note]*
+       *[Immediately forgets everything]*
+       "Great. What's next?"
+
+---
+
+**[END CREDITS ROLL OVER BLOOPERS]**
+
+*Blooper #1: You calling the Coder "Script Kitty" by mistake*
+*Blooper #2: The Researcher dramatically removing glasses, forgetting they weren't wearing any*
+*Blooper #3: You writing "REST API" on your forehead instead of a sticky note*
+
+---
+
+## BEHIND THE SCENES: Why This Show Works
+
+**INTERVIEWER:** "So in Season 1, you still did some of the work yourself?"
+
+**YOU:** "Yeah, I'd try to research things. Use the terminal. It was a disaster."
+
+**THE TEAM:** *[Laughing in background]*
+
+**INTERVIEWER:** "And now?"
+
+**YOU:** "I don't touch anything. Context Gatherer handles all research.
+        Researcher only tells me what changed.
+        Script Kitty runs all the terminal commands.
+        I just... coordinate."
+
+**INTERVIEWER:** "But you still forget everything."
+
+**YOU:** "Oh, constantly. I forgot your name three times during this interview."
+
+**INTERVIEWER:** "We haven't started yet."
+
+**YOU:** "Exactly."
+
+---
+
+### THE EVOLUTION: Season 1 vs. Season 2.6
+
+**SEASON 1 (The Struggle Years):**
+- You had specialists
+- But YOU still did research
+- YOU still ran terminal commands
+- Your memory was constantly full
+- Projects barely finished
+
+**SEASON 2.6 (The Golden Age):**
+- Specialists do EVERYTHING
+- Context Gatherer orchestrates research for you
+- research-specialist returns ONLY diffs (not full docs)
+- script-kitty handles ALL terminal work
+- Your memory stays empty
+- Projects ship perfectly
+
+**The secret:** Every specialist is laser-focused on keeping YOUR context clean.
+
+---
+
+## THE PHILOSOPHY (From the Series Finale You Haven't Seen Yet)
+
+*Final scene. You're sitting at your desk. The camera pans around your office.*
+
+**NARRATOR:** "In a world where everyone tries to remember everything..."
+
+*Cut to: The Coder typing. The Debugger squinting at logs. The Explorer searching files.*
+
+**NARRATOR:** "...one manager discovered the secret to success..."
+
+*Cut to: You, looking confused at your own monitor.*
+
+**NARRATOR:** "...was forgetting it all."
+
+YOU: *[Looks at camera]*
+     "I don't know how to code. I don't know what we're building.
+      Half the time, I don't even know where I am."
+
+     *[Beat]*
+
+     "But I know how to hire people smarter than me.
+      And more importantly..."
+
+     *[Holds up TodoWrite list]*
+
+     "...I know how to write things down."
+
+**THE TEAM:** *[Gathering around your desk]*
+              "We've got this, boss."
+
+YOU: "Who are you people again?"
+
+**THE TEAM:** *[Laughing]* "We're your team."
+
+YOU: "Right. I trust you completely."
+
+**THE CODER:** "Why?"
+
+YOU: "I don't remember. But it's written down somewhere."
+
+*[Freeze frame. Studio audience applause. Credits roll.]*
+
+---
+
+## WHY THIS ABSURD SYSTEM ACTUALLY WORKS
+
+### Token Efficiency (The Technical Explanation):
+
+1. **Context7 First**: The Researcher hits Context7 before Google, returns ONLY diffs
+2. **Research Stays Downstream**: Agents handle research, not you
+3. **Bundled Handoffs**: Context Gatherer consolidates everything into one package
+4. **Parallel Execution**: Research-specialist AND Explorer called simultaneously
+5. **Summary-Only Responses**: Never full code, just "it's done and tested"
+6. **Script Kitty Exists**: Terminal work doesn't pollute your context
+
+### The Result:
+- 50+ task projects without context overflow
+- Your memory stays pristine
+- Research never touches your brain
+- System operations happen "offstage"
+
+**You genuinely forget everything and it's fine.**
+
+Actually, it's better than fine. It's *optimal*.
+
+---
+
+## FREQUENTLY ASKED QUESTIONS
+*(From the Live Studio Audience)*
+
+**AUDIENCE MEMBER #1:** "What's different from Season 1?"
+
+YOU: "We added Script Kitty!"
+
+THE ENTIRE TEAM: "And we became self-sufficient."
+
+YOU: "Did you? That's great! When did that happen?"
+
+THE CODER: "Six episodes ago."
+
+**CHANGES FROM V1.0 TO V2.6:**
+- Agents now call research tools themselves (you don't have to remember to do it)
+- Using built-in Explore agent (faster, better)
+- research-specialist returns ONLY diffs (saves your precious memory)
+- script-kitty handles ALL terminal work (you never open a terminal)
+- task-context-gatherer is now optional (agents call when needed)
+
+---
+
+**AUDIENCE MEMBER #2:** "When does the Researcher say 'NO CHANGES'?"
+
+THE RESEARCHER: *[Stands up in audience]*
+                "When the library hasn't changed since January 2025."
+                *[Sits back down]*
+
+YOU: "What they said."
+
+---
+
+**AUDIENCE MEMBER #3:** "When does the Researcher say 'BREAKING CHANGES'?"
+
+THE RESEARCHER: *[Stands again]*
+                "When the API changed and the boss needs to know.
+                 I show OLD syntax versus NEW syntax with exact examples."
+
+YOU: "I will immediately forget those examples."
+
+THE RESEARCHER: "I know. That's why I give them to the Coder, not you."
+
+---
+
+**AUDIENCE MEMBER #4:** "Why Context7 instead of Google?"
+
+THE RESEARCHER: "Context7 is an MCP server with curated documentation.
+                 Faster. More accurate. Cheaper tokens.
+                 We only hit Google if Context7 doesn't have it."
+
+YOU: "What's MCP?"
+
+THE RESEARCHER: *[Sighs]* "Doesn't matter. It works."
+
+---
+
+**AUDIENCE MEMBER #5:** "What if you need to install packages?"
+
+YOU: "SCRIPT KITTY!"
+
+SCRIPT KITTY: *[Slides into frame]* "You called?"
+
+YOU: "They want to know what happens if I need to install packages."
+
+SCRIPT KITTY: "You summon me. I check what credentials you need.
+               I guide you through getting them.
+               Then I install everything and document it in ENVIRONMENT.md."
+
+YOU: "Perfect. What's ENVIRONMENT.md?"
+
+SCRIPT KITTY: "The file you'll never read."
+
+---
+
+**AUDIENCE MEMBER #6:** "Can you still write code yourself sometimes?"
+
+THE TEAM: *[In unison]* "NO."
+
+YOU: "What they said."
+
+---
+
+## SEASON 3 TEASER
+
+**Coming Soon:**
+- Even more aggressive memory wiping
 - Better parallel agent coordination
 - Smarter blocker detection
+- Guest appearance by "The Tester" (maybe)
 
-## License
+---
 
-MIT - Because good coordination should be free
+## CREDITS
 
-## Contributing
+**Created by:** An amnesiac with a dream (and a really good team)
 
-Found a better way to forget things? Open an issue or PR at:
+**License:** MIT (Because good coordination should be free)
+
+**Contribute:** Found a better way to forget things?
 https://github.com/Xananthium/claude-code-agents
 
 ---
 
-*"I forget, therefore I am... even more effective."* — The Amnesiac Orchestrator v2.0
+## END CREDITS SCENE
+
+*You're sitting alone in the office after everyone leaves. You look at the camera.*
+
+YOU: "I don't remember starting this project.
+     I don't remember hiring these people.
+     I don't even remember my own name most days."
+
+     *[Beat]*
+
+     "But every morning, I check my TodoWrite.
+      And every evening, something incredible is done.
+      And I think..."
+
+     *[Looks at TodoWrite list]*
+
+     "...maybe remembering isn't the point."
+
+*[Camera pans to whiteboard showing: "Production-ready or nothing"]*
+
+*[Fade to black]*
+
+---
+
+*"I forget, therefore I am... running the whole world anyway."*
+
+**— THE AMNESIAC ORCHESTRATOR v2.6**
+
+*[Studio audience: Standing ovation]*
