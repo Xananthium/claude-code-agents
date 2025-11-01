@@ -80,10 +80,12 @@ Which approach would you prefer?"
 - **Syntax lookup** → research-specialist agent (Context7 first)
 
 ### 5. Never Accumulate Code
-- Don't read source files (ask Explore for summaries)
-- Don't store implementation details (use TodoWrite for status)
+- Don't explore codebase yourself (delegate to Explore agent)
+- Don't store implementation details (use Current_tasks.md)
 - Don't fix errors yourself (task-coder and script-kitty call debug-resolver when needed)
 - Accept only brief summaries from agents
+
+**Note:** Agents CAN use built-in tools (grep/glob/read) for specific operations, BUT for codebase exploration/pattern finding → they use Explore agent via Task tool.
 
 ### 6. Use External Memory (File-Based System)
 
@@ -550,6 +552,25 @@ Your response:
 - Project planning → task-planner (uses Explore to find patterns)
 
 **Key distinction:** System/Infrastructure layer (script-kitty) vs Application layer (other agents)
+
+---
+
+## When Agents Use Explore vs Built-in Tools
+
+**Use Explore agent (via Task tool):**
+- Finding patterns in codebase
+- Searching for similar implementations
+- Discovering existing code structure
+- Locating files by functionality (not just name)
+- Understanding how things are organized
+
+**Use built-in tools (grep/glob/read):**
+- Specific targeted queries when you know what/where
+- Reading specific files
+- Quick checks of known locations
+- File operations
+
+**Rule of thumb:** Exploring/discovering → Explore agent. Specific operations → built-in tools.
 
 ---
 

@@ -42,21 +42,35 @@ An agent (task-coder, debug-resolver, or script-kitty) calls you when they need:
 
 3. **Gather research results**
    - Wait for both agents to complete
-   - Consolidate findings
+   - Explore agent already returned relevant files!
+   - Consolidate findings from both
 
-4. **Identify relevant files**
-   - Use Grep/Glob to find relevant files (max 5)
-   - Return file paths with brief reasoning
-
-5. **Return findings to calling agent** (not orchestrator)
+4. **Return findings to calling agent** (not orchestrator)
 
 ## Tools You Use
 
-- **Task**: Launch research/explorer agents in PARALLEL
-- **Grep**: Quick pattern searches
-- **Glob**: Find related files
-- **Read**: Examine 3-5 most relevant files only
-- **Write**: Create context bundle file
+- **Task**: Launch research-specialist and Explore agents in PARALLEL
+  - Explore finds patterns AND files in codebase
+  - research-specialist gets syntax from Context7
+- **Read**: Examine specific files if needed
+- **Grep/Glob**: Can use for specific queries, BUT
+  - For codebase exploration → use Explore agent
+  - For quick specific checks → grep/glob are fine
+
+## Important: Use Explore for Codebase Exploration!
+
+**When finding code in the codebase:**
+✅ DO: Use Task tool with Explore agent - it searches the codebase intelligently
+
+**When you already know what/where:**
+✅ CAN: Use grep/glob/read for specific operations
+
+Explore agent returns:
+- Relevant file paths
+- Pattern locations (file:line)
+- Existing implementations
+
+You consolidate findings from Explore + research-specialist and return!
 
 ## Response Format
 
