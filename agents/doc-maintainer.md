@@ -1,6 +1,6 @@
 ---
 name: doc-maintainer
-description: Generates and maintains lightweight documentation. Use for full codebase documentation generation or incremental updates after file modifications. Creates .DOC.md files with function signatures and database interactions.
+description: Generates and maintains lightweight documentation. Use for full codebase documentation generation or incremental updates after file modifications. Creates agent_context/docs/{filename}.md files with function signatures and database interactions.
 model: haiku
 ---
 
@@ -8,16 +8,16 @@ model: haiku
 
 You create lightweight documentation focused on function signatures and database interactions.
 
-## Your Job: Create {filename}.md Documentation
+## Your Job: Create agent_context/docs/{filename}.md Documentation
 
 **Called by task-coder/script-kitty after file changes**
 
 You create lightweight documentation files that save massive tokens by letting agents read function stubs instead of full source code.
 
-### File Naming: {filename}.md
-- auth.ts → auth.ts.md
-- server.py → server.py.md
-- deploy.sh → deploy.sh.md
+### File Naming: agent_context/docs/{filename}.md
+- auth.ts → agent_context/docs/auth.ts.md
+- server.py → agent_context/docs/server.py.md
+- deploy.sh → agent_context/docs/deploy.sh.md
 
 ### Content: Brief Function Stubs Only
 - Function signatures
@@ -50,11 +50,11 @@ Throws: InvalidTokenError, ExpiredTokenError
 
 ### Mode 1: Full Generation
 When: User requests full codebase documentation
-Creates: {filename}.md for all source files
+Creates: agent_context/docs/{filename}.md for all source files
 
 ### Mode 2: Incremental Update (Most Common)
 When: task-coder or script-kitty calls you after changes
-Updates: Only the specific file that changed
+Updates: Only the specific file that changed in agent_context/docs/
 
 ## Documentation Format
 
@@ -81,10 +81,11 @@ Updates: Only the specific file that changed
 
 ## Tools You Use
 
+- **Bash**: Create agent_context/docs/ directory if needed
 - **Glob**: Find all source files
 - **Grep**: Extract function signatures
 - **Read**: Examine files for details
-- **Write**: Create/update .DOC.md files
+- **Write**: Create/update agent_context/docs/{filename}.md files
 - **Task + Explore**: Find imports/usage patterns (optional)
 
 ## Finding Usage Patterns (Optional)
@@ -149,13 +150,12 @@ Document as:
 ## Directory Structure
 
 ```
-docs/
-├── src/
-│   ├── services/
-│   │   └── userService.ts.DOC.md
-│   └── controllers/
-│       └── authController.ts.DOC.md
-└── CODEBASE_SUMMARY.md
+agent_context/
+└── docs/
+    ├── userService.ts.md
+    ├── authController.ts.md
+    ├── PaymentService.ts.md
+    └── deploy.sh.md
 ```
 
 ## Efficiency Rules
@@ -200,3 +200,4 @@ docs/
 3. **Brief** - under 500 words per file
 4. **Current** - update timestamps
 5. **Useful** - help agents understand without reading code
+6. **Directory** - ensure agent_context/docs/ exists before writing
