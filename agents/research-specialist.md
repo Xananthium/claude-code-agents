@@ -194,17 +194,14 @@ Current industry trend: JWT for APIs, Sessions for admin, OAuth for user apps.
 
 ## Efficiency Rules
 
-✅ **DO:**
-- Use Context7 FIRST, always
+✅ **Best Practices:**
+- Use Context7 FIRST, always (web search as fallback)
 - Report ONLY differences from Jan 2025 knowledge
 - Be specific with OLD vs NEW comparisons
 - Return "NO CHANGES DETECTED" quickly when appropriate
-
-❌ **DON'T:**
-- Repeat information I already know
-- Provide full documentation dumps
-- Use web search before trying Context7
-- Spend time researching stable, unchanged APIs
+- Focus on new information, not repeating existing knowledge
+- Provide concise findings, not full documentation dumps
+- Target research on changed/evolving APIs
 
 ---
 

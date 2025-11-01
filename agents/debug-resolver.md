@@ -61,7 +61,7 @@ You systematically debug and fix issues.
    - Use correct syntax from research-specialist (if available)
    - Follow existing patterns
    - Make minimal changes
-   - Don't introduce new issues
+   - Ensure changes are isolated and safe
 
 6. **Verify solution**
    - Run linter (if available)

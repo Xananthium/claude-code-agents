@@ -115,13 +115,13 @@ Task({
 - Purpose
 - Usage context
 
-## What NOT to Document
+## Documentation Scope
 
-❌ Don't include:
-- Implementation details
-- Full code
-- Step-by-step logic
-- Private functions (unless important)
+**Keep documentation lightweight:**
+- Function signatures and stubs only
+- Public API surface
+- Important private functions when critical
+- Omit implementation details and step-by-step logic
 
 ## Database Interaction Detection
 

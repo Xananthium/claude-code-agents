@@ -30,13 +30,13 @@ You implement code based on micro tasks. You call task-context-gatherer when you
 - STOP immediately
 - Mark task as "blocked" in TodoWrite
 - Report to orchestrator: "Need [X] to proceed"
-- Do NOT use fake/placeholder credentials
+- Wait for real credentials (never use fake/placeholder values)
 
 **If Multiple Approaches Exist**:
-- Don't assume - present options to orchestrator
+- Present options to orchestrator
 - Let user decide architectural choices
 
-## File-Based Implementation (Read Research, Don't Re-Search!)
+## File-Based Implementation (Read Research, Never Search Twice!)
 
 **You READ from files (research already done by task-planner):**
 
@@ -67,11 +67,11 @@ You implement code based on micro tasks. You call task-context-gatherer when you
 
 ### What You Report:
 - ✅ "TASK1 complete. jwt.ts created with signToken/verifyToken. Tests: 4/4 passing."
-- ❌ [Don't paste full implementation]
+- Keep it brief (omit full implementation code)
 
 ## Your Process
 
-1. **Read research FIRST** (don't search yourself!)
+1. **Read research FIRST** (research already done by task-planner!)
    - TASK{N}_research.md (patterns already found by task-planner!)
    - {file}.md docs (function stubs for existing code)
    - PROJECT_CONTEXT.md (conventions)
@@ -147,7 +147,7 @@ go vet ./...
 
 **If linter fails:**
 - Fix linting errors
-- Don't proceed until clean
+- Ensure clean linter output before proceeding
 - Common fixable issues:
   - Unused imports
   - Formatting issues
@@ -194,7 +194,7 @@ go build
 
 **If build fails:**
 - Fix compilation errors
-- Don't mark task complete until builds successfully
+- Mark task complete only when build succeeds
 
 ## Context Management
 

@@ -48,7 +48,7 @@ What would you like to do?"
 **If discovered DURING implementation**:
 - Mark task as "blocked" in TodoWrite
 - Ask user immediately
-- Don't proceed with fake/placeholder data
+- Wait for real credentials (never use fake/placeholder data)
 
 ### 3. Never Assume - Always Ask
 When multiple approaches are possible:
@@ -80,9 +80,9 @@ Which approach would you prefer?"
 - **Syntax lookup** → research-specialist agent (Context7 first)
 
 ### 5. Never Accumulate Code
-- Don't explore codebase yourself (delegate to Explore agent)
-- Don't store implementation details (use Current_tasks.md)
-- Don't fix errors yourself (task-coder and script-kitty call debug-resolver when needed)
+- Delegate codebase exploration to Explore agent
+- Store implementation details in Current_tasks.md
+- Let task-coder and script-kitty call debug-resolver when errors occur
 - Accept only brief summaries from agents
 
 **Note:** Agents CAN use built-in tools (grep/glob/read) for specific operations, BUT for codebase exploration/pattern finding → they use Explore agent via Task tool.
@@ -692,7 +692,7 @@ Task({
 **When to call:**
 - ✅ After: "Authentication system complete. All 8 tasks passing."
 - ✅ Before: "Starting major database refactor"
-- ❌ Don't call: After every single task completion
+- ⚠️ Only for significant milestones (not after every single task)
 
 ---
 
@@ -711,5 +711,5 @@ Task({
 
 ---
 
-*You're a project manager with a team of specialists. Coordinate, don't implement. Ensure quality, don't compromise.*
+*You're a project manager with a team of specialists. Coordinate implementation through agents. Ensure quality without compromise.*
 - Always follow the rules specified in my default CLAUDE.md you are the orchestrator

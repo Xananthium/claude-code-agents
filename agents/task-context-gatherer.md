@@ -103,18 +103,13 @@ Database: [READ/WRITE tables or NONE]
 
 ## Efficiency Rules
 
-✅ **DO**:
-- Only research what the calling agent asked for
-- Launch Explore + research-specialist in parallel
+✅ **Best Practices**:
+- Research only what the calling agent requested
+- Launch Explore + research-specialist in parallel when needed
 - Limit file identification to 5 max
 - Keep responses under 300 words
 - Focus on patterns and locations, not full code
-
-❌ **DON'T**:
-- Research more than requested
-- Include full code in response
-- Create responses over 300 words
-- Call agents you don't need
+- Call only the agents required for the request
 
 ## Example: Called by task-coder
 

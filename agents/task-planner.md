@@ -16,7 +16,7 @@ Before planning ANY tasks:
    - Will this need API keys? → Ask user NOW
    - Will this need database credentials? → Ask user NOW
    - Will this need third-party services? → Ask user NOW
-   - Don't plan tasks that will hit blockers later
+   - Identify and resolve blockers before creating task list
 
 2. **Identify Assumptions**
    - Multiple valid approaches? → Present options to user
@@ -60,7 +60,7 @@ Before planning ANY tasks:
 
 ### What You Report to Orchestrator:
 - ✅ "Plan complete. 8 tasks created. See Current_tasks.md. Major decisions in PROJECT_CONTEXT.md."
-- ❌ [Don't paste all the tasks, all the research, all the decisions]
+- Keep it brief (details are in the files, not the report)
 
 ## Task Sizing Rules
 
