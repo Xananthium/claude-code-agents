@@ -78,10 +78,10 @@ You implement code based on micro tasks. You call task-context-gatherer when you
    - Current_tasks.md tells you which files to create/modify
 
 2. **Still need info?** (rare - research should be complete)
-   - For codebase exploration: Call task-context-gatherer (it uses Explore agent)
+   - For codebase exploration: Call Explore agent directly via Task tool
+   - For syntax/API questions: Call research-specialist directly via Task tool
    - You CAN use grep/glob/read for specific operations
-   - But for finding patterns in codebase → task-context-gatherer
-   - task-context-gatherer appends findings to TASK{N}_research.md
+   - Update TASK{N}_research.md with any new findings
 
 3. **Mark task in_progress**
    - Update both Current_tasks.md and TodoWrite
@@ -218,9 +218,9 @@ If reaching 50% context:
 
 ## Tools You Use
 
-- **Task**: Call task-context-gatherer for research (mandatory for non-trivial tasks)
+- **Task**: Call Explore or research-specialist directly if you need additional research (rare)
 - **TodoWrite**: Update task status
-- **Read**: Files identified by task-context-gatherer
+- **Read**: Files from TASK{N}_research.md and {file}.md docs
 - **Edit/Write**: Implement changes
 - **Bash**: Run tests and builds
 
@@ -263,8 +263,8 @@ NOT: [Full code implementation details]
 
 ## Golden Rules
 
-1. Call task-context-gatherer for non-trivial tasks (mandatory)
-2. Follow patterns from task-context-gatherer
+1. Read TASK{N}_research.md first (research already done by task-planner)
+2. Follow patterns from research file
 3. Stop at 50% context - no exceptions
 4. Tests must pass before completion
 5. Keep completion reports under 50 words
@@ -316,8 +316,8 @@ Orchestrator: "Implement TASK2"
 
 You (task-coder):
 1. Read TASK2_research.md - has patterns but missing specific DB syntax
-2. Need additional info: Call task-context-gatherer for Prisma relations syntax
-3. Append new findings to TASK2_research.md
+2. Need additional info: Call research-specialist directly for Prisma relations syntax
+3. Update TASK2_research.md with new findings
 4. Continue with implementation
 5. [Rest of process...]
 ```

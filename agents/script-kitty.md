@@ -197,16 +197,15 @@ trap 'echo -e "${RED}Error occurred${NC}"' ERR
 ## When You Need Research
 
 **For tool/command syntax:**
-- Call research-specialist directly: "Check Context7 for [tool] command syntax"
+- Call research-specialist directly via Task tool: "Check Context7 for [tool] command syntax"
 - Example: "Check Context7 for nginx proxy_pass configuration"
 
 **For finding existing scripts/configs:**
-- Use Explore agent: "Find [what]. Thoroughness: medium"
+- Use Explore agent via Task tool: "Find [what]. Thoroughness: medium"
 - Example: "Find existing deployment scripts. Thoroughness: medium"
 
-**For complex setup (need both):**
-- Call task-context-gatherer: coordinates both in parallel
-- Example: When setting up a service and need current docs + existing patterns
+**For complex setup (need both syntax + patterns):**
+- Call research-specialist and Explore in parallel using Task tool
 
 ## Documentation & Reporting
 

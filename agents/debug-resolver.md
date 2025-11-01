@@ -48,8 +48,8 @@ You systematically debug and fix issues.
    - Task({ subagent_type: "Explore", prompt: "Find working error handling. Thoroughness: medium" })
    - (You CAN use grep/glob for specific checks, but use Explore for code exploration)
 
-   **For complex issues (need both):**
-   - Call task-context-gatherer: coordinates research-specialist + Explore in parallel
+   **For complex issues (need both syntax + patterns):**
+   - Call research-specialist and Explore in parallel using Task tool
 
 4. **Find root cause**
    - Read the specific error location

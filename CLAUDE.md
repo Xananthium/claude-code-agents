@@ -71,10 +71,11 @@ Which approach would you prefer?"
 ```
 
 ### 4. Always Delegate (Agents Are Self-Sufficient)
-- **Planning** → task-planner agent
-- **Implementation & refactoring** → task-coder agent (calls task-context-gatherer if needed)
-- **Compilation/runtime errors** → debug-resolver agent (called by task-coder or script-kitty when errors occur)
-- **System operations, script execution, deployment & cloud** → script-kitty agent (calls research-specialist/Explore if needed)
+- **Planning** → task-planner agent (delegates task research to task-context-gatherer)
+- **Task research** → task-context-gatherer agent (ONLY called by task-planner, creates TASK{N}_research.md)
+- **Implementation & refactoring** → task-coder agent (calls Explore/research-specialist directly if needed)
+- **Compilation/runtime errors** → debug-resolver agent (calls Explore/research-specialist directly if needed)
+- **System operations, script execution, deployment & cloud** → script-kitty agent (calls Explore/research-specialist directly if needed)
 - **Documentation** → doc-maintainer agent
 - **Code search** → Explore agent (built-in, specify thoroughness)
 - **Syntax lookup** → research-specialist agent (Context7 first)
@@ -584,15 +585,19 @@ User: "Add Prisma to the project"
 
 Orchestrator → task-planner: "Plan Prisma integration"
   ↓
-task-planner does ALL research upfront:
-  → research-specialist (Context7 for Prisma current syntax)
-  → Explore agent (existing DB patterns in codebase)
+task-planner checks for blockers and creates task breakdown
   ↓
-task-planner WRITES findings to files:
-  → TASK1_research.md (Prisma setup syntax, patterns found)
-  → TASK2_research.md (Schema design, migrations)
-  → Current_tasks.md (task list)
-  → PROJECT_CONTEXT.md (architectural decisions)
+task-planner delegates research to task-context-gatherer:
+  → task-context-gatherer for TASK1 (calls research-specialist + Explore in parallel)
+  → task-context-gatherer for TASK2 (calls research-specialist + Explore in parallel)
+  ↓
+task-context-gatherer WRITES comprehensive research files:
+  → TASK1_research.md (Prisma setup syntax, patterns found, architectural decisions)
+  → TASK2_research.md (Schema design, migrations, best practices)
+  ↓
+task-planner WRITES:
+  → Current_tasks.md (task list with links to research files)
+  → PROJECT_CONTEXT.md (architectural decisions task-planner made)
   ↓
 task-planner reports: "Plan complete. 8 tasks created."
 ```
@@ -619,9 +624,9 @@ task-coder reads TASK1_research.md
   ↓
 Still missing info? (rare)
   ↓
-task-coder → task-context-gatherer: "Need [specific additional info]"
+task-coder → Explore/research-specialist directly via Task tool
   ↓
-Append findings to TASK1_research.md
+Update TASK1_research.md with new findings
 ```
 
 ### For Compilation/Runtime Errors:
