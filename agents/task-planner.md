@@ -35,6 +35,18 @@ Before planning ANY tasks:
    - Native features > Third-party packages
    - Keep dependencies minimal
 
+## Token Efficiency
+
+**Keep planning concise:**
+- Task list with brief descriptions
+- Don't over-explain each micro task
+- Orchestrator just needs task list for TodoWrite
+- Details come during implementation
+
+**Example:**
+- ✅ "Created 8 micro tasks: User type, password hash util, JWT sign/verify, middleware, login/register endpoints, tests."
+- ❌ [Long paragraphs explaining what each task will do, architectural considerations, detailed implementation notes, etc.]
+
 ## Task Sizing Rules
 
 ### Micro Task (80% of all tasks)

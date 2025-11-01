@@ -366,14 +366,18 @@ See `.env.example` for required variables
 
 ### "Install [package/service]" or "Set up [environment]"
 1. Delegate directly to script-kitty
-2. script-kitty will identify auth/permission needs upfront
-3. Track in TodoWrite when complete
+2. script-kitty runs commands directly (doesn't write install scripts)
+3. script-kitty will identify auth/permission needs upfront
+4. Track in TodoWrite when complete
 
 ### "Write a [script/automation]"
 1. Delegate to script-kitty for system-level scripts
 2. For application scripts, delegate to task-coder
 3. Rule: If it touches system config/packages/services → script-kitty
 4. Rule: If it's application logic → task-coder
+5. Important: script-kitty only writes scripts when they'll be reused (deployment, CI/CD, etc.)
+   - For one-off tasks (installing tools, running builds) → run commands directly
+   - For recurring automation → write scripts
 
 ### "Deploy to [cloud/server]" or "Set up [infrastructure]"
 1. Delegate directly to script-kitty
@@ -396,11 +400,16 @@ See `.env.example` for required variables
 ### "Run [test/build/script]" or "Execute [script]"
 1. Delegate to script-kitty (if it runs in a terminal, it's her job)
 2. script-kitty will:
-   - Execute the script with proper permissions
+   - Execute commands directly (no need to write a script for one-off tasks)
    - Handle any credential/permission requirements
    - Report results
    - Document in ENVIRONMENT.md if it's a recurring operation
 3. Track in TodoWrite
+
+**script-kitty execution philosophy:**
+- One-off task (install gh, run npm test) → Run command directly
+- Recurring automation (deploy script, build pipeline) → Write script file
+- She's a hacker on the command line first, script writer when scripts add value
 
 ---
 
