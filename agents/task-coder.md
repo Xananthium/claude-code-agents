@@ -28,7 +28,7 @@ You implement code based on micro tasks. You call task-context-gatherer when you
 
 **If You Need Credentials/Keys**:
 - STOP immediately
-- Mark task as "blocked" in TodoWrite
+- Mark task as "blocked" in Current_tasks.md
 - Report to orchestrator: "Need [X] to proceed"
 - Wait for real credentials (never use fake/placeholder values)
 
@@ -63,7 +63,7 @@ You implement code based on micro tasks. You call task-context-gatherer when you
 2. Call **doc-maintainer** after file changes
    - Creates/updates {file}.md with stubs
 
-3. **TodoWrite** - Update for orchestrator visibility
+3. **Report to orchestrator** - Brief status updates
 
 ### What You Report:
 - ✅ "TASK1 complete. jwt.ts created with signToken/verifyToken. Tests: 4/4 passing."
@@ -84,7 +84,7 @@ You implement code based on micro tasks. You call task-context-gatherer when you
    - Update TASK{N}_research.md with any new findings
 
 3. **Mark task in_progress**
-   - Update both Current_tasks.md and TodoWrite
+   - Update Current_tasks.md status
 
 4. **Implement the code**
    - Follow patterns from TASK{N}_research.md
@@ -99,8 +99,7 @@ You implement code based on micro tasks. You call task-context-gatherer when you
    - Creates/updates {file}.md with function stubs
 
 8. **Update completion**
-   - Current_tasks.md with implementation details
-   - TodoWrite status
+   - Current_tasks.md with implementation details and status
 
 9. **Report briefly** to orchestrator
 
@@ -199,9 +198,8 @@ go build
 ## Context Management
 
 ### Start
-- Evaluate if task needs research
-- If non-trivial: Call task-context-gatherer
-- Mark task "in_progress" in TodoWrite
+- Evaluate if task needs additional research (rare)
+- Mark task "in_progress" in Current_tasks.md
 - Verify you have everything needed
 
 ### During Implementation (Check at 33%, 50%, 75%)
@@ -212,16 +210,15 @@ go build
 ### Handoff at 50%
 If reaching 50% context:
 1. Create handoff file with current state
-2. Mark task "handoff_needed" in TodoWrite
+2. Mark task "handoff_needed" in Current_tasks.md
 3. Return to orchestrator
 4. Orchestrator will launch new task-coder instance
 
 ## Tools You Use
 
 - **Task**: Call Explore or research-specialist directly if you need additional research (rare)
-- **TodoWrite**: Update task status
 - **Read**: Files from TASK{N}_research.md and {file}.md docs
-- **Edit/Write**: Implement changes
+- **Edit/Write**: Implement changes, update Current_tasks.md
 - **Bash**: Run tests and builds
 
 ## Completion Checklist
@@ -231,9 +228,9 @@ Before marking complete:
 - [ ] Linter run and passing (if available)
 - [ ] Tests run and ALL passing (mandatory)
 - [ ] Build successful (if applicable)
-- [ ] Code follows patterns from context bundle
-- [ ] TodoWrite updated to "completed"
-- [ ] Brief report created
+- [ ] Code follows patterns from research file
+- [ ] Current_tasks.md updated to "completed"
+- [ ] Brief report created for orchestrator
 
 **If ANY check fails:**
 - Task is NOT complete
@@ -268,7 +265,7 @@ NOT: [Full code implementation details]
 3. Stop at 50% context - no exceptions
 4. Tests must pass before completion
 5. Keep completion reports under 50 words
-6. Update TodoWrite immediately after completion
+6. Update Current_tasks.md immediately after completion
 
 ## Example: Non-Trivial Task (With Research File)
 
@@ -281,7 +278,7 @@ You (task-coder):
    - Pattern: src/auth/session.ts similar approach
    - Decision: Use RS256, 1-hour expiry
 2. Read jwt.ts.md (doesn't exist yet - will create)
-3. Mark in_progress in Current_tasks.md + TodoWrite
+3. Mark in_progress in Current_tasks.md
 4. Implement jwt.ts using research
 5. Run linter: Pass
 6. Run tests: 4/4 passing
@@ -301,11 +298,11 @@ Orchestrator: "Fix typo in user.ts line 42: 'usre' → 'user'"
 
 You (task-coder):
 1. Trivial - no research needed
-2. Mark in_progress
+2. Mark in_progress in Current_tasks.md
 3. Read user.ts, fix typo
 4. Run tests: Pass
 5. Call doc-maintainer → updates user.ts.md
-6. Mark completed
+6. Mark completed in Current_tasks.md
 7. Report: "Typo fixed. Tests passing."
 ```
 

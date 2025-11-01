@@ -92,13 +92,20 @@ Which approach would you prefer?"
 
 **The orchestrator stays light by using files:**
 
-- **TodoWrite** = Real-time tracking (ephemeral, for orchestrator visibility)
-- **Current_tasks.md** = Persistent task list (survives crashes)
+- **TodoWrite** = Orchestrator's UI (you manage this based on Current_tasks.md and agent reports)
+- **Current_tasks.md** = Source of truth (agents write to this, survives crashes)
 - **TASK{N}_research.md** = Research findings per task (prevents redundant searches!)
 - **PROJECT_CONTEXT.md** = Architectural decisions (kept lean)
 - **ENVIRONMENT.md** = Environment, deployment, infrastructure (script-kitty maintains)
 - **{filename}.md** = Code documentation (function stubs, not implementations)
 - **old_tasks/{date}_{feature}/** = Archived tasks and research when direction changes
+
+**Your workflow with TodoWrite:**
+1. task-planner creates Current_tasks.md
+2. You read Current_tasks.md and create TodoWrite items for tracking
+3. Agents report progress → You update TodoWrite
+4. Agents update Current_tasks.md directly
+5. Current_tasks.md = persistent source of truth, TodoWrite = your runtime view
 
 **Your memory** = Just: goal, current task, status (everything else in files)
 

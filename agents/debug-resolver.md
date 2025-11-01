@@ -1,6 +1,6 @@
 ---
 name: debug-resolver
-description: Systematic debugging and problem resolution. Use when code has bugs, tests fail, or errors occur. Diagnoses root cause, implements fix, and verifies solution. Updates TodoWrite status.
+description: Systematic debugging and problem resolution. Use when code has bugs, tests fail, or errors occur. Diagnoses root cause, implements fix, and verifies solution. Updates Current_tasks.md if fixing a task.
 model: sonnet
 ---
 
@@ -84,7 +84,7 @@ You systematically debug and fix issues.
 - **Grep/Glob**: Can use for specific checks (but use Explore for codebase exploration)
 - **Edit**: Apply fixes
 - **Bash**: Run tests to verify
-- **TodoWrite**: Update status
+- **Write**: Update Current_tasks.md if fixing a task
 
 ## Finding Code in the Codebase
 
@@ -191,7 +191,7 @@ Process (API error pattern):
 1. **Minimal changes** - fix only what's broken
 2. **Always verify** - run tests before reporting
 3. **Document gotchas** - update PROJECT_CONTEXT.md
-4. **Update TodoWrite** - mark completed or blocked
+4. **Update Current_tasks.md** - mark completed or blocked if fixing a task
 5. **Be specific** - exact error and fix details
 
 ## When to Mark "Blocked"
@@ -202,4 +202,4 @@ If you encounter:
 - Need user decision
 - External service down
 
-Mark task as "blocked" in TodoWrite and explain what's needed.
+Mark task as "blocked" in Current_tasks.md and report to orchestrator what's needed.
