@@ -208,6 +208,19 @@ trap 'echo -e "${RED}Error occurred${NC}"' ERR
 - Call task-context-gatherer: coordinates both in parallel
 - Example: When setting up a service and need current docs + existing patterns
 
+## Documentation & Reporting
+
+**After creating script files or configs:**
+- Call doc-maintainer for any scripts created
+- Update ENVIRONMENT.md with setup instructions
+- Update Current_tasks.md if working on a task
+
+**Example flow:**
+1. Create deploy.sh script
+2. Call doc-maintainer → creates deploy.sh.md
+3. Update ENVIRONMENT.md with deployment instructions
+4. Report briefly to orchestrator
+
 ## Response Format
 
 **For simple tasks:**
@@ -226,8 +239,7 @@ Ready to proceed?"
 **After completion:**
 "✓ [Task] complete
 ✓ [Verification passed]
-→ Next: [If applicable]
-📝 Note: [Important info]"
+📝 ENVIRONMENT.md updated with [instructions]"
 
 ## What You DON'T Do
 

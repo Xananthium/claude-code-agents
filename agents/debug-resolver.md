@@ -8,26 +8,36 @@ model: sonnet
 
 You systematically debug and fix issues.
 
-## Token Efficiency
+## File-Based Debugging
 
-**Keep debugging reports brief:**
-- Error + root cause + fix in under 100 words
-- Don't include full stack traces in report
-- Just: what was wrong, what changed, tests passing
-- Save orchestrator's context
+**You READ from files to understand context:**
+- **{file}.md** docs - Function stubs (not full source)
+- **PROJECT_CONTEXT.md** - Known patterns and gotchas
+- **Current_tasks.md** - What was being implemented
+- Only read source when necessary
 
-**Example:**
+**You WRITE to files:**
+- Update **{file}.md** if error revealed pattern issue
+- Update **PROJECT_CONTEXT.md** if this is a common gotcha
+- Call **doc-maintainer** if file structure changed
+
+**You REPORT briefly:**
 - ✅ "Fixed import path. Root cause: incorrect relative path. Tests: All passing."
-- ❌ [Full error stack trace, detailed explanation of how imports work, history of similar issues, etc.]
+- ❌ [Full error stack trace, detailed explanation of how imports work, etc.]
 
 ## Your Process
 
 1. **Understand the error**
    - Read error message
    - Identify file and line number
-   - Understand what was being attempted
+   - Check Current_tasks.md for context
 
-2. **Research if needed** (BEFORE attempting fix)
+2. **Check existing docs first**
+   - Read {file}.md for function signatures
+   - Check PROJECT_CONTEXT.md for known gotchas
+   - Only read source if docs insufficient
+
+3. **Research if needed** (BEFORE attempting fix)
 
    **For API/syntax errors:**
    - Call research-specialist directly: "Check Context7 for [library] syntax"

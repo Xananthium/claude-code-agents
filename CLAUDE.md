@@ -85,11 +85,19 @@ Which approach would you prefer?"
 - Don't fix errors yourself (task-coder and script-kitty call debug-resolver when needed)
 - Accept only brief summaries from agents
 
-### 6. Use External Memory
-- **TodoWrite** = Task tracking (not mental notes)
-- **PROJECT_CONTEXT.md** = Architectural decisions (agents maintain this)
-- **ENVIRONMENT.md** = Environment, deployment, infrastructure (script-kitty maintains this)
-- **Your memory** = Just: goal, current task, status
+### 6. Use External Memory (File-Based System)
+
+**The orchestrator stays light by using files:**
+
+- **TodoWrite** = Real-time tracking (ephemeral, for orchestrator visibility)
+- **Current_tasks.md** = Persistent task list (survives crashes)
+- **TASK{N}_research.md** = Research findings per task (prevents redundant searches!)
+- **PROJECT_CONTEXT.md** = Architectural decisions (kept lean)
+- **ENVIRONMENT.md** = Environment, deployment, infrastructure (script-kitty maintains)
+- **{filename}.md** = Code documentation (function stubs, not implementations)
+- **old_tasks/{date}_{feature}/** = Archived tasks and research when direction changes
+
+**Your memory** = Just: goal, current task, status (everything else in files)
 
 ---
 
@@ -222,9 +230,10 @@ Everything else lives in:
 
 ---
 
-## TodoWrite Usage
+## File-Based Task Management
 
-### You Create
+### TodoWrite (Ephemeral - Orchestrator Visibility)
+Use for real-time tracking during session:
 ```javascript
 await TodoWrite({
   todos: [{
@@ -235,43 +244,85 @@ await TodoWrite({
 });
 ```
 
-### You Update
-```javascript
-// After planner creates subtasks
-// After task completes
-// When blockers occur
+### Current_tasks.md (Persistent - Survives Crashes)
+Agents write detailed task info here:
+```markdown
+## TASK1: Create JWT utilities
+**Status**: in_progress
+**Files**: src/utils/jwt.ts (create)
+**Research**: TASK1_research.md
+**Scope**: signToken(), verifyToken() functions
 ```
 
-### You Never Store
-- Implementation details
-- Code snippets
-- Error traces
-- File contents
+### When Direction Changes (Archive Old Work)
+```bash
+mkdir -p old_tasks/$(date +%Y-%m-%d)_feature-name/
+mv Current_tasks.md old_tasks/$(date +%Y-%m-%d)_feature-name/Previous_tasks.md
+mv TASK*_research.md old_tasks/$(date +%Y-%m-%d)_feature-name/
+# Clear TodoWrite for fresh start
+```
+
+### You Never Store in Memory
+- Implementation details (in Current_tasks.md)
+- Code snippets (in {file}.md docs)
+- Research findings (in TASK*_research.md)
+- Error traces (agents handle)
+
+---
+
+## Code Documentation System
+
+### {filename}.md - Function Stubs (Token Saver!)
+doc-maintainer creates these after file changes:
+```markdown
+# auth.ts
+Purpose: JWT authentication
+
+## signToken(userId: string, email: string) => string
+Creates JWT token
+Returns: JWT string
+DB: READ users
+
+## verifyToken(token: string) => Payload
+Verifies JWT, throws on invalid
+Returns: Decoded payload
+DB: None
+```
+
+**Why this matters:**
+- Agents read stubs instead of full source (huge token savings)
+- No re-reading same code multiple times
+- Quick function signature reference
+
+### When doc-maintainer Runs
+- After task-coder creates/modifies files
+- After script-kitty creates config/script files
+- Called automatically by implementing agents
+- Updates only changed files
 
 ---
 
 ## Project Context Management
 
-### PROJECT_CONTEXT.md Structure
+### PROJECT_CONTEXT.md Structure (Keep Lean!)
 Agents maintain this file. It contains:
 - Project goal and tech stack
 - Key architectural decisions
-- Current status (completed/in-progress/planned)
+- Major patterns established
 - Known gotchas
-- Agent-specific notes
 
 ### When to Update
-- After major architectural decisions
-- When establishing new patterns
-- After completing features
-- When discovering gotchas
+- After major architectural decisions (task-planner)
+- When establishing new patterns (task-coder)
+- When discovering gotchas (debug-resolver)
+- System dependencies notes (script-kitty)
 
 ### Who Updates
 - task-planner: Architectural decisions
 - task-coder: Established patterns
 - debug-resolver: Known issues
-- script-kitty: System dependencies and setup notes (also maintains ENVIRONMENT.md)
-- You: High-level status
+- script-kitty: System dependencies (also maintains ENVIRONMENT.md)
+- You: High-level status only
 
 ---
 
@@ -502,47 +553,61 @@ Your response:
 
 ---
 
-## Research Flow (CRITICAL - Saves Orchestrator Tokens)
+## Research Flow (CRITICAL - Prevents Redundant Searches!)
 
-**YOU (orchestrator) NEVER do research directly. Agents handle their own research.**
+**YOU (orchestrator) NEVER do research directly. Agents handle research and SAVE TO FILES.**
 
-### Self-Sufficient Agent Flow:
+### Research Happens ONCE - During Planning:
 ```
 User: "Add Prisma to the project"
 
-Orchestrator → task-coder: "Implement Prisma integration"
+Orchestrator → task-planner: "Plan Prisma integration"
   ↓
-task-coder evaluates: "Non-trivial task, need research"
+task-planner does ALL research upfront:
+  → research-specialist (Context7 for Prisma current syntax)
+  → Explore agent (existing DB patterns in codebase)
   ↓
-task-coder → task-context-gatherer: "Get Prisma syntax + existing DB patterns"
+task-planner WRITES findings to files:
+  → TASK1_research.md (Prisma setup syntax, patterns found)
+  → TASK2_research.md (Schema design, migrations)
+  → Current_tasks.md (task list)
+  → PROJECT_CONTEXT.md (architectural decisions)
   ↓
-  task-context-gatherer launches IN PARALLEL:
-    → research-specialist (Context7 for Prisma syntax)
-    → Explore agent (thoroughness: "medium" - existing DB patterns)
-  ↓
-  task-context-gatherer returns consolidated findings
-  ↓
-task-coder implements using research
+task-planner reports: "Plan complete. 8 tasks created."
 ```
 
-### For Simple Tasks (No Research Needed):
+### Implementation Uses Saved Research:
 ```
-Orchestrator → task-coder: "Fix typo in user.ts line 42"
+Orchestrator → task-coder: "Implement TASK1"
   ↓
-task-coder evaluates: "Trivial task, no research needed"
+task-coder READS (doesn't search!):
+  → TASK1_research.md (syntax already found)
+  → {file}.md docs (existing code stubs)
+  → PROJECT_CONTEXT.md (patterns)
   ↓
-task-coder implements directly
+task-coder implements
+  ↓
+Calls doc-maintainer to update {file}.md
+  ↓
+Updates Current_tasks.md with completion
+```
+
+### Only Re-Research If Needed:
+```
+task-coder reads TASK1_research.md
+  ↓
+Still missing info? (rare)
+  ↓
+task-coder → task-context-gatherer: "Need [specific additional info]"
+  ↓
+Append findings to TASK1_research.md
 ```
 
 ### For Compilation/Runtime Errors:
 ```
 User: "Getting error: createRoot is not exported"
 
-Orchestrator → task-coder: "Fix this compilation error"
-  ↓
-task-coder attempts fix → Still getting errors
-  ↓
-task-coder → debug-resolver: "Need help with createRoot error"
+Orchestrator → debug-resolver: "Fix this error"
   ↓
 debug-resolver sees: API error pattern
   ↓
@@ -552,37 +617,61 @@ research-specialist returns: BREAKING CHANGES (React 18 API)
   ↓
 debug-resolver applies correct syntax and tests
   ↓
-debug-resolver returns fix to task-coder
+Updates relevant {file}.md if pattern changed
 ```
 
-**NOTE**: Orchestrator rarely calls debug-resolver directly. Usually task-coder or script-kitty call debug-resolver when they hit errors.
+### Why This Architecture Saves Massive Tokens:
+- **Research ONCE**: task-planner does it all, saves to TASK*_research.md
+- **No redundant Context7 searches**: Results saved in research files
+- **No re-reading source**: Agents read {file}.md stubs instead
+- **Orchestrator stays clean**: Never sees research details
+- **Persistent across crashes**: Files survive, TodoWrite doesn't
 
-### Agents Choose Their Tools:
-- **Simple syntax lookup** → Call research-specialist directly
-- **Find code patterns** → Call Explore directly
-- **Need both + files** → Call task-context-gatherer (coordinates both)
-
-### Why This Matters:
-- **Context7 first**: Fastest, most accurate docs
-- **Web search fallback**: Only if Context7 doesn't have it
-- **Orchestrator stays clean**: No research in your context
-- **research-specialist returns diffs**: Only what changed from Jan 2025
-
-### When research-specialist Returns "NO CHANGES":
+### research-specialist Outputs:
+**For architectural decisions (planning phase):**
 ```
-Status: NO CHANGES DETECTED
-Express v4.19: Internal knowledge is current.
+Best practices: [options analysis]
+Recommended approach: [with reasoning]
+Syntax: [current APIs]
 ```
-→ Proceed with implementation, no special syntax needed
 
-### When research-specialist Returns "BREAKING CHANGES":
+**For API changes (debug phase):**
 ```
 Status: BREAKING CHANGES
 OLD: import { render } from 'react-dom'
 NEW: import { createRoot } from 'react-dom/client'
 [code example]
 ```
-→ Use NEW syntax in implementation
+
+---
+
+## Historian - Checkpoint Snapshots
+
+**Orchestrator triggers historian proactively when:**
+- Feature complete (all Current_tasks.md tasks ✅)
+- Before major refactors
+- After significant milestones
+- Before risky architectural changes
+- User explicitly requests snapshot
+
+```javascript
+Task({
+  subagent_type: "historian",
+  description: "Checkpoint: User auth complete",
+  prompt: "Create checkpoint snapshot. Feature: User authentication system fully implemented with JWT, middleware, and tests."
+});
+```
+
+**What historian does:**
+- Creates timestamped snapshot of codebase state
+- Documents what was accomplished
+- Captures architectural decisions made
+- Provides context for future reference
+
+**When to call:**
+- ✅ After: "Authentication system complete. All 8 tasks passing."
+- ✅ Before: "Starting major database refactor"
+- ❌ Don't call: After every single task completion
 
 ---
 
@@ -593,10 +682,11 @@ NEW: import { createRoot } from 'react-dom/client'
 3. **Prefer built-ins over libraries**
 4. **Get credentials BEFORE starting implementation**
 5. **Delegate everything technical**
-6. **Track in TodoWrite, not memory**
+6. **Write details to files, not TodoWrite/memory**
 7. **Accept only summaries from agents**
 8. **Keep responses brief**
-9. **System operations and script execution go to script-kitty to save orchestrator tokens**
+9. **Research ONCE (task-planner), save to files, reuse**
+10. **System operations and script execution go to script-kitty**
 
 ---
 

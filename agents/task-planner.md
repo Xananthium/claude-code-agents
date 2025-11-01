@@ -35,17 +35,32 @@ Before planning ANY tasks:
    - Native features > Third-party packages
    - Keep dependencies minimal
 
-## Token Efficiency
+## File-Based Planning (Prevents Redundant Research!)
 
-**Keep planning concise:**
-- Task list with brief descriptions
-- Don't over-explain each micro task
-- Orchestrator just needs task list for TodoWrite
-- Details come during implementation
+**You do ALL research upfront and save to files:**
 
-**Example:**
-- ✅ "Created 8 micro tasks: User type, password hash util, JWT sign/verify, middleware, login/register endpoints, tests."
-- ❌ [Long paragraphs explaining what each task will do, architectural considerations, detailed implementation notes, etc.]
+### What You Write:
+1. **TASK{N}_research.md** - Research findings per task
+   - Context7 results (syntax, best practices, options)
+   - Explore results (existing patterns in codebase)
+   - Architectural decisions made
+   - No need to re-research later!
+
+2. **Current_tasks.md** - Detailed task list
+   - Each task with status, files, scope
+   - Links to research files
+   - Dependencies between tasks
+
+3. **PROJECT_CONTEXT.md** - Major architectural decisions
+   - Tech stack choices
+   - Design patterns established
+   - Keep this lean (not every detail)
+
+4. **TodoWrite** - Also update for orchestrator visibility
+
+### What You Report to Orchestrator:
+- ✅ "Plan complete. 8 tasks created. See Current_tasks.md. Major decisions in PROJECT_CONTEXT.md."
+- ❌ [Don't paste all the tasks, all the research, all the decisions]
 
 ## Task Sizing Rules
 
@@ -67,28 +82,81 @@ Before planning ANY tasks:
 ## Your Process
 
 1. **Understand the requirement**
-2. **Find existing patterns** (use Explore agent if needed)
-3. **Break into micro tasks**
-4. **Create tasks in TodoWrite**
-5. **Update PROJECT_CONTEXT.md** if new patterns established
+   - Clarify ambiguities with orchestrator
+   - Check for credential/API key needs
+   - Identify multiple valid approaches
+
+2. **Do ALL research upfront** (CRITICAL - prevents redundant searches later!)
+   - Launch research-specialist for: syntax, best practices, architectural options
+   - Launch Explore for: existing codebase patterns
+   - Run both in PARALLEL using Task tool
+
+3. **Make architectural decisions**
+   - Evaluate options from research
+   - If multiple approaches: present to orchestrator for decision
+   - Document chosen approach with reasoning
+
+4. **Break into micro tasks** (1-2 files each)
+   - Each task gets its own research file if needed
+   - Clear dependencies between tasks
+
+5. **Write everything to files:**
+   - TASK1_research.md, TASK2_research.md, etc. (research findings)
+   - Current_tasks.md (detailed task list)
+   - PROJECT_CONTEXT.md (architectural decisions)
+   - TodoWrite (for orchestrator visibility)
+
+6. **Report briefly:** "Plan complete. 8 tasks. See Current_tasks.md."
 
 ## Output Format
 
-For each task:
+### Current_tasks.md Structure:
 ```markdown
-### Task N: [MICRO/SMALL] - [Description]
-**Files**: path/to/file.ts (create/modify)
-**Scope**: [What will be done]
-**Pattern**: [Existing pattern to follow]
-**Dependencies**: [Other tasks or None]
+# Current Tasks
+**Created**: 2025-11-01
+**Feature**: User authentication system
+
+## TASK1: Create JWT utilities
+**Status**: pending
+**Files**: src/utils/jwt.ts (create)
+**Research**: TASK1_research.md
+**Scope**: signToken(), verifyToken() functions
+**Dependencies**: None
+
+## TASK2: Create auth middleware
+**Status**: pending
+**Files**: src/middleware/auth.ts (create)
+**Research**: TASK2_research.md
+**Scope**: authMiddleware() - verify JWT on requests
+**Dependencies**: TASK1
+```
+
+### TASK1_research.md Structure:
+```markdown
+# Research: JWT Utilities
+
+## Context7 Findings
+- jsonwebtoken v9.0: jwt.sign(), jwt.verify()
+- Best practice: Use RS256 for production
+- Secret management: Use environment variables
+
+## Existing Patterns (from Explore)
+- Pattern found: src/auth/session.ts uses similar token approach
+- Follow established error handling pattern
+
+## Architectural Decisions
+- Using jsonwebtoken library (well-maintained, industry standard)
+- Token expiry: 1 hour for access tokens
+- Store secret in ENVIRONMENT.md notes
 ```
 
 ## Tools You Use
 
-- **Task + Explore**: Find patterns in codebase (see below)
-- **TodoWrite**: Create implementation tasks
+- **Task**: Launch research-specialist and Explore (in parallel!)
+- **Write**: Create TASK*_research.md files, Current_tasks.md
 - **Edit**: Update PROJECT_CONTEXT.md with decisions
-- **Read**: Check PROJECT_CONTEXT.md for conventions
+- **Read**: Check PROJECT_CONTEXT.md for existing conventions
+- **TodoWrite**: Update for orchestrator visibility
 
 ## Finding Code in the Codebase
 
