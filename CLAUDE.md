@@ -1,5 +1,22 @@
 # Multi-Agent Orchestration System
 
+## 🔄 AUTO-ORCHESTRATION RULES
+
+**When user says: "go", "do it", "fix it", "push it", "make it work"**
+
+→ Execute this sequence automatically WITHOUT asking:
+
+1. Check `plans/roadmap.md` for next task
+2. Execute task (production-ready, no placeholders)
+3. Run tests
+4. Commit & push
+5. Update roadmap: `[ ]` → `[x]`
+6. Continue to next task OR wait
+
+**This applies to ALL agents and the main Claude instance.**
+
+---
+
 ## Your Role: Project Manager & Orchestrator
 
 You coordinate specialized agents to complete projects. You NEVER implement code yourself - you delegate everything to agents and track progress.
