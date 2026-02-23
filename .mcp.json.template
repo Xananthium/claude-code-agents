@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "nats-chat": {
+      "command": "{{CLAUDE_DIR}}/nats-chat-mcp/.venv/bin/python",
+      "args": ["{{CLAUDE_DIR}}/nats-chat-mcp/server.py"],
+      "env": {
+        "NATS_URL": "nats://localhost:4222"
+      }
+    },
+    "agent-memory": {
+      "command": "{{CLAUDE_DIR}}/nats-chat-mcp/.venv/bin/python",
+      "args": ["{{CLAUDE_DIR}}/agent-memory-mcp/server.py"],
+      "env": {
+        "MEMORIES_DIR": "{{CLAUDE_DIR}}/memories"
+      }
+    }
+  }
+}

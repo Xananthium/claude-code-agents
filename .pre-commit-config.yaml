@@ -1,0 +1,81 @@
+# Pre-commit hooks for anti-pattern detection pipeline
+# Install: pip install pre-commit && pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Standard Python linting with Ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.9
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # Type checking with mypy
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+        args: [--ignore-missing-imports]
+
+  # Basic file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: detect-private-key
+      - id: check-merge-conflict
+
+  # Custom analyzers (local)
+  - repo: local
+    hooks:
+      # Fallback detector - catches silent .get(key, 0) patterns
+      - id: fallback-detector
+        name: Fallback Detector
+        entry: python review-pipeline/analyzers/fallback_detector.py
+        language: system
+        types: [python]
+        pass_filenames: true
+
+      # Short variable finder - catches non-descriptive names
+      - id: short-variable-finder
+        name: Short Variable Finder
+        entry: python review-pipeline/analyzers/short_variable_finder.py
+        language: system
+        types: [python]
+        pass_filenames: true
+
+      # Function length checker - catches long functions
+      - id: function-length-checker
+        name: Function Length Checker
+        entry: python review-pipeline/analyzers/function_length_checker.py
+        language: system
+        types: [python]
+        pass_filenames: true
+
+      # Bare except finder - catches dangerous exception handling
+      - id: bare-except-finder
+        name: Bare Except Finder
+        entry: python review-pipeline/analyzers/bare_except_finder.py
+        language: system
+        types: [python]
+        pass_filenames: true
+
+      # Full pipeline check (runs all analyzers + generates report)
+      - id: review-pipeline
+        name: Review Pipeline
+        entry: python review-pipeline/pipeline.py --mode=pre-commit
+        language: system
+        types: [python]
+        pass_filenames: true
+        stages: [commit]
+
+# Default settings
+default_stages: [commit, push]
+fail_fast: false
